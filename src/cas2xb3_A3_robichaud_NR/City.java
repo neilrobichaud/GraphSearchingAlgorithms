@@ -17,7 +17,19 @@ public class City {
 		this.adjList = new ArrayList<City>();
 	}
 	
+	public static Restaurant[] nearbyRestaurants(double lat, double lng){
+		//binary search on restaurant list
+		// binarySearch(this.lat,this.lng) --> returns index of closest restaurant in restaurant list
+		int closestlatindex = BinarySearch.indexOf(FindPath.rlist, lat);
+		
+		return null;
+	}
+	
 	
 	
 
 }
+//TODO import the restaurant csvs and sort them
+// 
+// create graph each city is a node
+// edges are weighted by 
