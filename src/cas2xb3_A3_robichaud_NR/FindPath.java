@@ -26,8 +26,18 @@ public class FindPath {
 		citylist = readCityFromFile("2XB3_A3_DataSets/zips1990.csv");
 		
 		readEdgeFromFile("2XB3_A3_DataSets/connectedCities.txt");
-		addEdge(cityfinder("Boston"),cityfinder("el paso"),3.0);
-		System.out.print(cityfinder("el paso").adjList.get(0).weight);
+		//addEdge(cityfinder("Boston"),cityfinder("el paso"),3.0);
+		int count=0;
+		for(int i=0;i<citylist.size();i++){
+			if (!citylist.get(i).adjList.isEmpty()){
+				for (int j=0;j<citylist.get(i).adjList.size();j++){
+					System.out.println(citylist.get(i).adjList.get(j).v.name+" -->"+citylist.get(i).adjList.get(j).w.name);
+					count++;
+				}				
+				
+			}
+		}
+		System.out.print(count);
 		//System.out.print(cityfinder("Boston").adjList.get(0).weight);
 		
 	}
@@ -107,12 +117,14 @@ public class FindPath {
 						String secondcity=k.substring(i+3);
 						String[] tuple1 = firstcity.split("\\(");
 						String[] tuple2 = secondcity.split("\\(");
-						tuple1[0].trim();
+						tuple1[0]=tuple1[0].trim();
 						tuple1[1]=tuple1[1].substring(0, tuple1[1].length()-1);
-						tuple2[0].trim();
+						tuple2[0]=tuple2[0].trim();
 						tuple2[1]=tuple2[1].substring(0, tuple2[1].length()-1);
-
-						//addEdge(cityfinder(tuple1[0]),cityfinder(tuple2[0]),2);
+						if (cityfinder(tuple1[0])!=null  && cityfinder(tuple2[0])!=null){
+						
+						addEdge(cityfinder(tuple1[0]),cityfinder(tuple2[0]),2);}
+						else{System.out.println(tuple1[0]+","+tuple2[0]);}
 						//System.out.println(tuple2[0]);
 						//System.out.println(secondcity);	
 						first=false;
