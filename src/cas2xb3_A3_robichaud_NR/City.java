@@ -7,6 +7,7 @@ public class City {
 	public double lng;
 	public String name;
 	public String[] states;
+	public Boolean visited = false;															// used for dfs instead of marked array
 	public ArrayList<Edge> adjList;
 	 
 	public City(double x, double y, String z, String[] s){
