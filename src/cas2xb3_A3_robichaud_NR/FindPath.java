@@ -23,24 +23,34 @@ public class FindPath {
 		allRList.addAll(wendyslist);
 		rlist = allRList.toArray(new Restaurant[allRList.size()]);
 		citylist = new ArrayList<City>();
-		citylist = readCityFromFile("2XB3_A3_DataSets/zips1990.csv");
-		
+		citylist = readCityFromFile("2XB3_A3_DataSets/zips1990.csv");		
 		readEdgeFromFile("2XB3_A3_DataSets/connectedCities.txt");
-		//addEdge(cityfinder("Boston"),cityfinder("el paso"),3.0);
-		int count=0;
-		for(int i=0;i<citylist.size();i++){
-			if (!citylist.get(i).adjList.isEmpty()){
-				for (int j=0;j<citylist.get(i).adjList.size();j++){
-					System.out.println(citylist.get(i).adjList.get(j).v.name+" -->"+citylist.get(i).adjList.get(j).w.name);
-					count++;
-				}				
-				
-			}
+		DepthFirstSearch newpath = new DepthFirstSearch(cityfinder("Dallas"), cityfinder("Jacksonville"));
+		
+		//System.out.print(citylist.size());
+		//printEdges();
+		for (int i=0; i<newpath.getPath().size();i++){
+			System.out.println(newpath.getPath().get(newpath.getPath().size()-i-1).name + " -->");
 		}
-		System.out.print(count);
-		//System.out.print(cityfinder("Boston").adjList.get(0).weight);
 		
 	}
+	public static void printEdges(){
+	int count=0;
+	for(int i=0;i<citylist.size();i++){
+		if (!citylist.get(i).adjList.isEmpty()){
+			for (int j=0;j<citylist.get(i).adjList.size();j++){
+				System.out.println(citylist.get(i).adjList.get(j).v.name+" -->"+citylist.get(i).adjList.get(j).w.name);
+				count++;
+			}				
+			
+		}
+	}
+	//System.out.print(count);
+	//System.out.print(cityfinder("Boston").adjList.get(0).weight);
+	}
+	
+	
+	
 	
 	public static void addEdge(City x, City y, double weight){
 		Edge e = new Edge(x, y, weight);
@@ -77,7 +87,7 @@ public class FindPath {
 				String k = input.nextLine();
 				String[] l= k.split(",");
 				String[] state = {l[2]};
-				if (cityfinder(l[3])==null){	// if city is not already in citylist
+				if (cityfinder(l[3])==null){	// if city is not already in citylist				
 				City a = new City(Double.parseDouble(l[4]), Double.parseDouble(l[5]), l[3], state);
 				current.add(a);
 				}
