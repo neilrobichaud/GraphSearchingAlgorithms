@@ -6,16 +6,16 @@ public class City {
 	public double lat;
 	public double lng;
 	public String name;
-	public String[] states;
+	public String state;
 	public Boolean visited = false;															// used for dfs instead of marked array
 	public Edge edgeTo;
 	public ArrayList<Edge> adjList;
 	 
-	public City(double x, double y, String z, String[] s){
+	public City(double x, double y, String z, String s){
 		this.lat = x;
 		this.lng = y;
 		this.name = z;
-		this.states = s;
+		this.state = s;
 		this.adjList = new ArrayList<Edge>();
 	}
 	

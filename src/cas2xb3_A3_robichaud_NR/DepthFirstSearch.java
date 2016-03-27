@@ -7,7 +7,7 @@ public class DepthFirstSearch {
 
 	private ArrayList<City> path=new ArrayList<City>();
 	private final City source;
-
+	private final ArrayList<City> prevConfig = FindPath.citylist;
 	public DepthFirstSearch(City source, City Destination) {
 		this.source = source;
 		dfs(source, Destination);
@@ -77,6 +77,9 @@ public class DepthFirstSearch {
 
 	public void setPath(ArrayList<City> path) {
 		this.path = path;
+	}
+	public void restore(){
+		FindPath.citylist = prevConfig;
 	}
 
 }
