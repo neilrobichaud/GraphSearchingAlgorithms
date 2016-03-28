@@ -48,10 +48,11 @@ public class BreadthFirstSearch {
 			City p = q.get(q.size() - 1); // save top of stack
 			q.remove(q.size() - 1); // pop top of stack
 			if (p.name.equalsIgnoreCase(Destination.name)) { // if G is the
-				p.visited=true;				
-				path=q;
+				p.visited=true;	
+				setPath(retPath(p));	
+				//path=q;
 				return;
-				//setPath(retPath(p));				
+				//			
 			}
 			for (int i = 0; i < p.adjList.size(); i++) { 
 				

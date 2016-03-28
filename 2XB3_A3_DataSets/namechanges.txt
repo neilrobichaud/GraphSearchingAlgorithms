@@ -1,0 +1,7 @@
+3 City names were changed in the connected cities.txt file to be consistent with the spelling in the zip1990.csv file.
+
+New York City --> New York
+Pittsburgh --> Pittsburg
+St. Louis --> Saint Louis
+
+Washington (MD) --> Washington (DC)
