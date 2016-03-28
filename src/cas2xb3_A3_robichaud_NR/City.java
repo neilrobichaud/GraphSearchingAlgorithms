@@ -13,12 +13,12 @@ public class City {
 	public int distTo;
 	public ArrayList<Edge> adjList;
 	 
-	public City(double x, double y, String z, String s, double gasPrice){
+	public City(double x, double y, String z, String s, String gasPrice){
 		this.lat = x;
 		this.lng = y;
 		this.name = z;
 		this.state = s;
-		this.gasPrice = gasPrice;
+		this.gasPrice = Double.parseDouble(gasPrice);
 		this.adjList = new ArrayList<Edge>();
 	}
 	

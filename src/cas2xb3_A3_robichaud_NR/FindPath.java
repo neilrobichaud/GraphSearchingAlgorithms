@@ -21,44 +21,48 @@ public class FindPath {
 	public static BreadthFirstSearch breadthpath;
 	public static DepthFirstSearch depthpath;
 	public static Map<String, String> gasStateDictionary;
+	public static ArrayList<Double> mcdMenu;
+	public static ArrayList<Double> wendyMenu;
+	public static ArrayList<Double> bkMenu;
+
 	public static void main(String[] args) {
-		
-		ArrayList<Restaurant> bklist = readFromFile("2XB3_A3_DataSets/burgerking.csv");
-		ArrayList<Restaurant> mcdlist = readFromFile("2XB3_A3_DataSets/mcdonalds.csv");
-		ArrayList<Restaurant> wendyslist = readFromFile("2XB3_A3_DataSets/wendys.csv");
+
+		ArrayList<Restaurant> bklist = readRestaurantFromFile("2XB3_A3_DataSets/burgerking.csv");
+		ArrayList<Restaurant> mcdlist = readRestaurantFromFile("2XB3_A3_DataSets/mcdonalds.csv");
+		ArrayList<Restaurant> wendyslist = readRestaurantFromFile("2XB3_A3_DataSets/wendys.csv");
 		ArrayList<Restaurant> allRList = new ArrayList<Restaurant>();
 		allRList.addAll(bklist);
 		allRList.addAll(mcdlist);
 		allRList.addAll(wendyslist);
 		rlist = allRList.toArray(new Restaurant[allRList.size()]);
 		gasStateDictionary = readGasFromFile("2XB3_A3_DataSets/StateGasPrice.csv");
-		
+
 		citylist = new ArrayList<City>();
 		citylist = readCityFromFile("2XB3_A3_DataSets/zips1990.csv");
 		readEdgeFromFile("2XB3_A3_DataSets/connectedCities.txt");
 		ArrayList<String[]> inputcities = readInTxt();
-		
-		breadthpath = new BreadthFirstSearch(
-				cityfinder(inputcities.get(0)[0], inputcities.get(0)[1]),
+
+		breadthpath = new BreadthFirstSearch(cityfinder(inputcities.get(0)[0], inputcities.get(0)[1]),
 				cityfinder(inputcities.get(1)[0], inputcities.get(1)[1]));
 		String bfwrite = "";
 		for (int i = 0; i < breadthpath.getPath().size(); i++) {
 			bfwrite = bfwrite + breadthpath.getPath().get(breadthpath.getPath().size() - i - 1).name + ",";
 		}
 		breadthpath.restore();
-		
+
 		depthpath = new DepthFirstSearch(cityfinder(inputcities.get(0)[0], inputcities.get(0)[1]),
 				cityfinder(inputcities.get(1)[0], inputcities.get(1)[1]));
 		String dfwrite = "";
-		for (int i = 0; i < depthpath.getPath().size(); i++) {			
+		for (int i = 0; i < depthpath.getPath().size(); i++) {
 			dfwrite = dfwrite + depthpath.getPath().get(depthpath.getPath().size() - i - 1).name + ",";
 		}
 
-		BufferedWriter bw =null;
+		BufferedWriter bw = null;
 		try {
 			bw = new BufferedWriter(new FileWriter("a3_out.txt")); // create
-																			// output.txt
-		} catch (IOException e) {System.out.print("x");
+																	// output.txt
+		} catch (IOException e) {
+			System.out.print("x");
 		}
 
 		try {
@@ -78,8 +82,6 @@ public class FindPath {
 			e.printStackTrace();
 		}
 	}
-
-
 
 	public static void printEdges() {
 		int count = 0;
@@ -122,20 +124,20 @@ public class FindPath {
 		return lst;
 	}
 
-	public static ArrayList<Restaurant> readFromFile(String filename) { // method
-																		// to
-																		// read
-																		// from
-																		// the
-																		// input
-																		// file,
-																		// returns
-																		// each
-																		// line
-																		// as an
-																		// string
-																		// in an
-																		// arraylist
+	public static ArrayList<Restaurant> readRestaurantFromFile(String filename) { // method
+		// to
+		// read
+		// from
+		// the
+		// input
+		// file,
+		// returns
+		// each
+		// line
+		// as an
+		// string
+		// in an
+		// arraylist
 		Scanner input;
 		ArrayList<Restaurant> current = new ArrayList<Restaurant>();
 		try {
@@ -143,6 +145,7 @@ public class FindPath {
 			while (input.hasNextLine()) {
 				String k = input.nextLine();
 				String[] l = k.split(",");
+
 				Restaurant a = new Restaurant(Double.parseDouble(l[0]), Double.parseDouble(l[1]), l[2]);
 				current.add(a);
 			}
@@ -156,6 +159,32 @@ public class FindPath {
 						// the arraylist
 	}
 
+	public static void readMenuFromFile(String filename) {
+		Scanner input;
+		try {
+			input = new Scanner(new File(filename));
+			while (input.hasNextLine()) {
+				String k = input.nextLine();
+				String[] l = k.split(",");
+				if (l[0].contains("McDonald")) {
+					mcdMenu.add(Double.parseDouble(l[2].replaceAll("$","")));				//saves menu prices to respective list
+				} else if (l[0].contains("Burger King")) {
+					bkMenu.add(Double.parseDouble(l[2].replaceAll("$","")));
+				} else if (l[0].contains("Wendy's")) {
+					wendyMenu.add(Double.parseDouble(l[2].replaceAll("$","")));
+				}
+				Restaurant a = new Restaurant(Double.parseDouble(l[0]), Double.parseDouble(l[1]), l[2]);
+
+			}
+
+			input.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 	public static ArrayList<City> readCityFromFile(String filename) {
 		Scanner input;
 		ArrayList<City> current = new ArrayList<City>();
@@ -163,12 +192,16 @@ public class FindPath {
 			input = new Scanner(new File(filename));
 			input.nextLine(); // skip first row of headers
 			while (input.hasNextLine()) {
+				
 				String k = input.nextLine();
 				String[] l = k.split(",");
 				if (cityfinder(l[3], l[2]) == null) { // if city is not already
 														// in citylist
-					double gasPrice = Integer.parseInt(gasStateDictionary.get(l[2]));
-					City a = new City(Double.parseDouble(l[4]), Double.parseDouble(l[5]), l[3], l[2],gasPrice);
+					String gasPrice = (gasStateDictionary.get(l[2]));
+					if (gasPrice==null){
+						gasPrice ="50";
+					}
+					City a = new City(Double.parseDouble(l[4]), Double.parseDouble(l[5]), l[3], l[2], gasPrice);
 					current.add(a);
 				}
 			}
@@ -262,7 +295,8 @@ public class FindPath {
 		// return current;//.toArray(new Restaurant[current.size()]); //returns
 		// the arraylist
 	}
-	public static Map<String, String> readGasFromFile(String filename){
+
+	public static Map<String, String> readGasFromFile(String filename) {
 		Scanner input;
 		Map<String, String> dictionary = new HashMap<String, String>();
 		try {
@@ -270,7 +304,9 @@ public class FindPath {
 			input.nextLine(); // skip first row of headers
 			while (input.hasNextLine()) {
 				String k = input.nextLine();
+				k=k.trim();
 				String[] l = k.split(",");
+				
 				dictionary.put(l[0], l[1]);
 			}
 
@@ -280,9 +316,9 @@ public class FindPath {
 			e.printStackTrace();
 		}
 		return dictionary;// .toArray(new Restaurant[current.size()]); //returns
-						// the arraylist
-	}	
-	
+							// the arraylist
+	}
+
 	/*
 	 * takes a string and returns a city from citylist
 	 */

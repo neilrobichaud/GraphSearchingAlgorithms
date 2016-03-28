@@ -20,12 +20,12 @@ public class BinarySearch {
     public static ArrayList<Restaurant> getlist(double restaurantlat, double restaurantlng, int closestlatindex){
     	ArrayList<Restaurant> closeLatList= new ArrayList<Restaurant>();
     	int i = closestlatindex;
-    	while (Math.abs(FindPath.rlist[i].lat - restaurantlat) < 0.5){		//adds all restaurant within -0.5 lat points
+    	while (Math.abs(FindPath.rlist[i].lat - restaurantlat) < 0.5  && FindPath.rlist[i].visited != true){		//adds all restaurant within -0.5 lat points
     		closeLatList.add(FindPath.rlist[i]);
     		i--;
     	}
     	i= closestlatindex;
-    	while (Math.abs(FindPath.rlist[i].lat - restaurantlat) < 0.5){		//adds all restaurant withing +0.5 lat point
+    	while (Math.abs(FindPath.rlist[i].lat - restaurantlat) < 0.5 && FindPath.rlist[i].visited != true){		//adds all restaurant withing +0.5 lat point
     		closeLatList.add(FindPath.rlist[i]);
     		i++;
     	}    	
