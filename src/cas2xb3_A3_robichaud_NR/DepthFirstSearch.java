@@ -7,8 +7,12 @@ public class DepthFirstSearch {
 
 	private ArrayList<City> path=new ArrayList<City>();
 	private final City source;
+	private final City Destination;
+	int count;
 	private final ArrayList<City> prevConfig = FindPath.citylist;
 	public DepthFirstSearch(City source, City Destination) {
+		count=0;
+		this.Destination=Destination;
 		this.source = source;
 		dfs(source, Destination);
 	}
@@ -37,7 +41,7 @@ public class DepthFirstSearch {
 	private void dfs(City G, City Destination) {
 		//City c; // the next city to be searched
 		G.visited = true;
-		
+		count++;
 		if (G.name.equalsIgnoreCase(Destination.name)) { // if G is the destination
 			setPath(retPath(G));
 			return;
@@ -74,9 +78,14 @@ public class DepthFirstSearch {
 	public ArrayList<City> getPath() {
 		return path;
 	}
-
+	public Boolean hasPathTo(){
+		return Destination.visited;
+	}
 	public void setPath(ArrayList<City> path) {
 		this.path = path;
+	}
+	public int count(){
+		return count;
 	}
 	public void restore(){
 		FindPath.citylist = prevConfig;

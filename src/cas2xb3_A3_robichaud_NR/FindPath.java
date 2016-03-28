@@ -28,16 +28,18 @@ public class FindPath {
 		citylist = readCityFromFile("2XB3_A3_DataSets/zips1990.csv");
 		readEdgeFromFile("2XB3_A3_DataSets/connectedCities.txt");
 		ArrayList<String[]> inputcities = readInTxt();
-		DepthFirstSearch newpath = new DepthFirstSearch(cityfinder(inputcities.get(0)[0], inputcities.get(0)[1]),
+		BreadthFirstSearch newpath = new BreadthFirstSearch(cityfinder(inputcities.get(0)[0], inputcities.get(0)[1]),
 				cityfinder(inputcities.get(1)[0], inputcities.get(1)[1]));
-		newpath.restore();
+
 		// System.out.print(citylist.size());
 		// printEdges();
-		/*
-		 * for (int i=0; i<newpath.getPath().size();i++){
-		 * System.out.println(newpath.getPath().get(newpath.getPath().size()-i-1
-		 * ).name + " -->"); }
-		 */
+
+		for (int i = 0; i < newpath.getPath().size(); i++) {
+			System.out.println(newpath.getPath().get(newpath.getPath().size() - i - 1).name + " -->");
+		}
+		System.out.print(newpath.hasPathTo());
+		//System.out.print(newpath.count());
+		newpath.restore();
 
 	}
 
@@ -196,8 +198,10 @@ public class FindPath {
 						}
 
 						if (found1 == true && found2 == true) {
-							//System.out.println(tuple1[0] + " " + statelist1[ind1]);
-							//System.out.println(tuple2[0] + " " + statelist2[ind2]);
+							// System.out.println(tuple1[0] + " " +
+							// statelist1[ind1]);
+							// System.out.println(tuple2[0] + " " +
+							// statelist2[ind2]);
 							addEdge(cityfinder(tuple1[0], statelist1[ind1]), cityfinder(tuple2[0], statelist2[ind2]),
 									2);
 						} else {
