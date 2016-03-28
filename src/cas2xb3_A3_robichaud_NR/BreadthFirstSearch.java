@@ -70,7 +70,7 @@ public class BreadthFirstSearch {
 						p.adjList.get(i).w.edgeTo = p.adjList.get(i);
 						p.adjList.get(i).w.distTo = p.distTo + 1;
 						p.adjList.get(i).w.visited = true;
-						q.add(p.adjList.get(i).v);
+						q.add(p.adjList.get(i).w);
 					}
 				}
 			}
