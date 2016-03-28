@@ -6,7 +6,7 @@ public class BreadthFirstSearch {
 	private ArrayList<City> path = new ArrayList<City>();
 	private final City source;
 	private final City destination;
-	private final ArrayList<City> prevConfig = FindPath.citylist;
+
 
 	public BreadthFirstSearch(City source, City Destination) {
 		this.destination=Destination;
@@ -93,6 +93,10 @@ public class BreadthFirstSearch {
 	}
 
 	public void restore() {
-		FindPath.citylist = prevConfig;
+		for (int i=0;i<FindPath.citylist.size();i++){
+			FindPath.citylist.get(i).visited = false;
+			FindPath.citylist.get(i).distTo = 100000000;
+			FindPath.citylist.get(i).edgeTo = null;
+		}
 	}
 }

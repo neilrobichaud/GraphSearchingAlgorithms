@@ -3,6 +3,7 @@ package cas2xb3_A3_robichaud_NR;
 import java.util.ArrayList;
 
 public class City {
+	public double gasPrice;
 	public double lat;
 	public double lng;
 	public String name;
@@ -12,11 +13,12 @@ public class City {
 	public int distTo;
 	public ArrayList<Edge> adjList;
 	 
-	public City(double x, double y, String z, String s){
+	public City(double x, double y, String z, String s, double gasPrice){
 		this.lat = x;
 		this.lng = y;
 		this.name = z;
 		this.state = s;
+		this.gasPrice = gasPrice;
 		this.adjList = new ArrayList<Edge>();
 	}
 	
