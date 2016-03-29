@@ -4,16 +4,18 @@ import java.util.ArrayList;
 
 public class City {
 	public double gasPrice;
+	int index;
 	public double lat;
 	public double lng;
 	public String name;
 	public String state;
 	public Boolean visited = false;											//has this city been visited in a search?
 	public Edge edgeTo;														//what was the last city on this path
-	public int distTo;														//used for bfs
+	public double distTo;														//used for bfs
 	public ArrayList<Edge> adjList;											//adjacency list
 	 
-	public City(double x, double y, String z, String s, String gasPrice){
+	public City(double x, double y, String z, String s, String gasPrice, int index){
+		this.index = index;
 		this.lat = x;
 		this.lng = y;
 		this.name = z;

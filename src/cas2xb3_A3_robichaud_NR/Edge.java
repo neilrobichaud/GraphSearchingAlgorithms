@@ -41,11 +41,12 @@ public class Edge {
 		
 		double foodMoney=0;
 		int closestInd = BinarySearch.indexOf(FindPath.rlist,x.lat);				//the index in rlist of the closest restaurant to City v
-		System.out.print(closestInd + " ");
+		//System.out.print(closestInd + " ");
 		ArrayList<Restaurant> closeRestaurantList = BinarySearch.getlist(x.lat, x.lng, closestInd);
-		Boolean wendy = false;
-		Boolean mcd = false;
-		Boolean bk = false;
+		System.out.print(closeRestaurantList.get(0).name);
+		Boolean wendy = true;
+		Boolean mcd = true;
+		Boolean bk = true;
 		//System.out.print(closeRestaurantList.size() + " ");
 		for (int i=0; i< closeRestaurantList.size();i++){
 			//System.out.print(closeRestaurantList.get(i).name);
@@ -60,88 +61,40 @@ public class Edge {
 			}
 		}
 		if(mcd && bk && wendy){
-			if(FindPath.mcdMenu.get(FindPath.mcdMenu.size()-1) < FindPath.mcdMenu.get(FindPath.mcdMenu.size()-1)){
+			if(FindPath.mcdMenu.get(FindPath.mcdMenu.size()-1) < FindPath.bkMenu.get(FindPath.bkMenu.size()-1)){
 				if (FindPath.mcdMenu.get(FindPath.mcdMenu.size()-1) < FindPath.wendyMenu.get(FindPath.wendyMenu.size()-1)){
 					//mcd is smallest
 					cheapestR="mcd";
+					foodMoney=FindPath.mcdMenu.get(FindPath.mcdMenu.size()-1);
+					FindPath.mcdMenu.remove(FindPath.mcdMenu.size()-1);
 				}
 				else {
 					//wendys is smallest
 					cheapestR="wendy";
+					foodMoney=FindPath.wendyMenu.get(FindPath.wendyMenu.size()-1);
+					FindPath.wendyMenu.remove(FindPath.wendyMenu.size()-1);
 				}
 			}
 			else{
 				if(FindPath.bkMenu.get(FindPath.bkMenu.size()-1) < FindPath.wendyMenu.get(FindPath.wendyMenu.size()-1)){
 					//bk smallest
 					cheapestR="bk";
+					foodMoney=FindPath.bkMenu.get(FindPath.bkMenu.size()-1);
+					foodMoney=FindPath.bkMenu.remove(FindPath.bkMenu.size()-1);
 				}
 				else{
 					//wendy smallest
 					cheapestR="wendy";
+					foodMoney=FindPath.wendyMenu.get(FindPath.wendyMenu.size()-1);
+					foodMoney=FindPath.wendyMenu.remove(FindPath.wendyMenu.size()-1);
 				}
 				
 			}
-		}
-		else if (mcd && bk){
-			if(FindPath.bkMenu.get(FindPath.bkMenu.size()-1) < FindPath.mcdMenu.get(FindPath.wendyMenu.size()-1)){
-				//bk smallest
-				cheapestR="bk";
-			}
-			else{
-				//mcd smallest
-				cheapestR="mcd";
-			}
-		}
-		else if (bk && wendy){
-			if(FindPath.bkMenu.get(FindPath.bkMenu.size()-1) < FindPath.wendyMenu.get(FindPath.wendyMenu.size()-1)){
-				//bk smallest
-				cheapestR="bk";
-			}
-			else{
-				//wendy smallest
-				cheapestR="wendy";
-			}
-		}
-		else if (wendy && mcd){
-			if(FindPath.mcdMenu.get(FindPath.bkMenu.size()-1) < FindPath.wendyMenu.get(FindPath.wendyMenu.size()-1)){
-				//mcd smallest
-				cheapestR="mcd";
-			}
-			else{
-				//wendy smallest
-				cheapestR="wendy";
-			}
-		}
-		else if (wendy){
-			//wendy smallest
-			cheapestR="wendy";
-		}
-		else if (bk){
-			//bk smallest
-			cheapestR="bk";
-		}
-		else if (mcd){
-			//mcd smallest
-			cheapestR="mcd";
-		}
-		else{
-			//no restaurants
-			cheapestR="norestaurant";
-		}
+		}		
+		else{foodMoney=50;}
+ 		
+		//System.out.print("FoodMoney:" + foodMoney + "  ");
 		
-		if (cheapestR.equals("mcd")){
-			foodMoney=FindPath.mcdMenu.get(FindPath.mcdMenu.size()-1);
-		}
-		else if (cheapestR.equals("bk")){
-			foodMoney=FindPath.bkMenu.get(FindPath.bkMenu.size()-1);
-		}
-		else if (cheapestR.equals("wendy")){
-			//foodMoney=FindPath.wendyMenu.get(FindPath.wendyMenu.size()-1);
-			foodMoney=50;
-		}
-		else{
-			foodMoney=50;
-		}
 		return foodMoney;
 	}
 	public double getDistanceKm(double lat1,double lon1,double lat2,double lon2) { //haversine formula from google

@@ -10,6 +10,17 @@ public class InsertionSort {
         }
 
     }
+    public static void sort(Restaurant[] a){
+        int N = a.length;
+        for (int i = 0; i < N; i++) {
+            for (int j = i; j > 0 && less(a[j], a[j-1]); j--) {
+                exch(a, j, j-1);
+            }
+        }
+    }
+    private static boolean less(Restaurant v, Restaurant w) {
+        return v.lat < w.lat;
+    }
     private static boolean less(Double v, Double w) {
         return v.compareTo(w) < 0;
     }

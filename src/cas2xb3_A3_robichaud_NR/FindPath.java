@@ -22,9 +22,9 @@ public class FindPath {
 	public static BreadthFirstSearch breadthpath;
 	public static DepthFirstSearch depthpath;
 	public static Map<String, String> gasStateDictionary;
-	public static ArrayList<Double> mcdMenu;
-	public static ArrayList<Double> wendyMenu;
-	public static ArrayList<Double> bkMenu;
+	public static ArrayList<Double> mcdMenu = new ArrayList<Double>();
+	public static ArrayList<Double> wendyMenu= new ArrayList<Double>();
+	public static ArrayList<Double> bkMenu= new ArrayList<Double>();
 	public static Double[] mcdList;
 	public static Double[] wendyList;
 	public static Double[] bkList;
@@ -39,12 +39,21 @@ public class FindPath {
 		allRList.addAll(mcdlist);
 		allRList.addAll(wendyslist);
 		rlist = allRList.toArray(new Restaurant[allRList.size()]);
+		InsertionSort.sort(rlist);
 		gasStateDictionary = readGasFromFile("2XB3_A3_DataSets/StateGasPrice.csv");
-
+		readMenuFromFile("2XB3_A3_DataSets/menu.csv");
+		
 		citylist = new ArrayList<City>();
 		citylist = readCityFromFile("2XB3_A3_DataSets/zips1990.csv");
 		readEdgeFromFile("2XB3_A3_DataSets/connectedCities.txt");
 		OutputFileCreate();
+		ShortestPath spath = new ShortestPath(0);
+		spath.printstuff();
+		//System.out.print(cityfinder("Boston","MA").index);
+		//System.out.print(spath.pathTo(11665));
+		//for (Edge e: spath.pathTo(cityfinder("Boston","MA").index)){
+		//	System.out.print(e.w.name+", ");
+		//}
 		//System.out.print(rlist[100].name);
 	}
 /*
@@ -104,7 +113,7 @@ public class FindPath {
 			if (!citylist.get(i).adjList.isEmpty()) {
 				for (int j = 0; j < citylist.get(i).adjList.size(); j++) {
 					
-					double x=(citylist.get(i).adjList.get(j).weightToV());// + " -->"
+					System.out.println(citylist.get(i).adjList.get(j).weightToV());// + " -->"
 							//+ citylist.get(i).adjList.get(j).w.name);
 				}
 
@@ -165,17 +174,23 @@ public class FindPath {
 			e.printStackTrace();
 		}
 		return current;
+		
 	}
 
 	public static void readMenuFromFile(String filename) {
 		Scanner input;
 		try {
 			input = new Scanner(new File(filename));
+			input.nextLine();
 			while (input.hasNextLine()) {
 				String k = input.nextLine();
 				String[] l = k.split(",");
+				l[2] = l[2].replaceAll("[^\\d.]+", "");
+				double price = Double.parseDouble(l[2]);
+				
 				if (l[0].contains("McDonald")) {
-					mcdMenu.add(Double.parseDouble(l[2].replaceAll("$", ""))); // saves
+					
+					mcdMenu.add(price); // saves
 																				// menu
 																				// prices
 																				// to
@@ -183,9 +198,9 @@ public class FindPath {
 																				// respective
 																				// lists
 				} else if (l[0].contains("Burger King")) {
-					bkMenu.add(Double.parseDouble(l[2].replaceAll("$", "")));
-				} else if (l[0].contains("Wendy's")) {
-					wendyMenu.add(Double.parseDouble(l[2].replaceAll("$", "")));
+					bkMenu.add(Double.parseDouble(l[2]));
+				} else if (l[0].contains("Wendy")) {					
+					wendyMenu.add(Double.parseDouble(l[2]));
 				}
 			}
 
@@ -200,17 +215,17 @@ public class FindPath {
 		InsertionSort.sort(wendyList);
 		wendyList = reverser(wendyList);
 		wendyMenu = new ArrayList<Double>(Arrays.asList(wendyList));
-
+		//System.out.print("wendymenu size: " + wendyMenu.size());
 		mcdList = mcdMenu.toArray(new Double[mcdMenu.size()]);
 		InsertionSort.sort(mcdList);
 		mcdList = reverser(mcdList);
 		mcdMenu = new ArrayList<Double>(Arrays.asList(mcdList));
-
+		//System.out.print("bkmenu size: " + bkMenu.size());
 		bkList = bkMenu.toArray(new Double[bkMenu.size()]);
 		InsertionSort.sort(bkList);
 		bkList = reverser(bkList);
 		bkMenu = new ArrayList<Double>(Arrays.asList(bkList));
-
+		//System.out.print("mcdmenu size: " + mcdMenu.size());
 	}
 
 	/*
@@ -241,7 +256,8 @@ public class FindPath {
 					if (gasPrice == null) {
 						gasPrice = "50"; // default price, to prevent errors
 					}
-					City a = new City(Double.parseDouble(l[4]), Double.parseDouble(l[5]), l[3], l[2], gasPrice);
+					int index = current.size();
+					City a = new City(Double.parseDouble(l[4]), Double.parseDouble(l[5]), l[3], l[2], gasPrice, index);
 					current.add(a);
 				}
 			}
