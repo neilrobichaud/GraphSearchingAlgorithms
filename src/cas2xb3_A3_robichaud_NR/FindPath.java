@@ -81,6 +81,7 @@ public class FindPath {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		printEdges();
 	}
 
 	public static void printEdges() {
@@ -89,7 +90,7 @@ public class FindPath {
 			if (!citylist.get(i).adjList.isEmpty()) {
 				for (int j = 0; j < citylist.get(i).adjList.size(); j++) {
 					System.out.println(
-							citylist.get(i).adjList.get(j).v.name + " -->" + citylist.get(i).adjList.get(j).w.name);
+							citylist.get(i).adjList.get(j).weightToV() + " -->" + citylist.get(i).adjList.get(j).w.name);
 					count++;
 				}
 
