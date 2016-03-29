@@ -367,3 +367,9 @@ public class FindPath {
 	}
 
 }
+//TODO
+/*
+ * implement shortest path alg
+ * write answers to written question
+ * junit test cases
+ */
