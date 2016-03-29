@@ -10,12 +10,12 @@ public class InsertionSort {
         }
 
     }
-    private static boolean less(Comparable v, Comparable w) {
+    private static boolean less(Double v, Double w) {
         return v.compareTo(w) < 0;
     }
     private static void exch(Object[] a, int i, int j) {
-        Object swap = a[i];
+        Object s = a[i];
         a[i] = a[j];
-        a[j] = swap;
+        a[j] = s;
     }
 }

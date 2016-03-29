@@ -21,7 +21,7 @@ public class Edge {
 	public double weightToV(){
 		double distance = getDistanceKm(v.lat,v.lng,w.lat,w.lng);
 		double gasVolume=8.2/100 * distance;
-		double gasMoney = w.gasPrice * gasVolume;
+		double gasMoney = w.gasPrice/100 * gasVolume;
 		double foodMoney=searchRestaurant(v);
 		double totalCost = foodMoney + gasMoney;		
 		return totalCost;
@@ -29,19 +29,26 @@ public class Edge {
 	public double weightToW(){
 		double distance = getDistanceKm(w.lat,w.lng,v.lat,v.lng);
 		double gasVolume=8.2/100 * distance;
-		double gasMoney = v.gasPrice * gasVolume;
+		double gasMoney = v.gasPrice/100 * gasVolume;
 		double foodMoney=searchRestaurant(w);
 		double totalCost = foodMoney + gasMoney;		
 		return totalCost;
 	}
+	/*
+	 * the hard way to find the cheapest restaurant at any given city
+	 */
 	public double searchRestaurant(City x){
+		
 		double foodMoney=0;
 		int closestInd = BinarySearch.indexOf(FindPath.rlist,x.lat);				//the index in rlist of the closest restaurant to City v
+		System.out.print(closestInd + " ");
 		ArrayList<Restaurant> closeRestaurantList = BinarySearch.getlist(x.lat, x.lng, closestInd);
 		Boolean wendy = false;
 		Boolean mcd = false;
 		Boolean bk = false;
+		//System.out.print(closeRestaurantList.size() + " ");
 		for (int i=0; i< closeRestaurantList.size();i++){
+			//System.out.print(closeRestaurantList.get(i).name);
 			if (closeRestaurantList.get(i).name.contains("Wendy's")){
 				wendy=true;
 			}
@@ -126,10 +133,14 @@ public class Edge {
 			foodMoney=FindPath.mcdMenu.get(FindPath.mcdMenu.size()-1);
 		}
 		else if (cheapestR.equals("bk")){
-			foodMoney=FindPath.mcdMenu.get(FindPath.mcdMenu.size()-1);
+			foodMoney=FindPath.bkMenu.get(FindPath.bkMenu.size()-1);
 		}
 		else if (cheapestR.equals("wendy")){
-			foodMoney=FindPath.mcdMenu.get(FindPath.mcdMenu.size()-1);
+			//foodMoney=FindPath.wendyMenu.get(FindPath.wendyMenu.size()-1);
+			foodMoney=50;
+		}
+		else{
+			foodMoney=50;
 		}
 		return foodMoney;
 	}

@@ -8,10 +8,10 @@ public class City {
 	public double lng;
 	public String name;
 	public String state;
-	public Boolean visited = false;															// used for dfs instead of marked array
-	public Edge edgeTo;
-	public int distTo;
-	public ArrayList<Edge> adjList;
+	public Boolean visited = false;											//has this city been visited in a search?
+	public Edge edgeTo;														//what was the last city on this path
+	public int distTo;														//used for bfs
+	public ArrayList<Edge> adjList;											//adjacency list
 	 
 	public City(double x, double y, String z, String s, String gasPrice){
 		this.lat = x;
@@ -22,7 +22,9 @@ public class City {
 		this.adjList = new ArrayList<Edge>();
 	}
 	
-
+/*
+ * use binary search to find the closest restaurants to this city
+ */
 	public ArrayList<Restaurant> nearbyRestaurants(){
 		int closestlatindex = BinarySearch.indexOf(FindPath.rlist, lat);
 		return BinarySearch.getlist(lat, lng, closestlatindex);		
@@ -32,7 +34,3 @@ public class City {
 	
 
 }
-//TODO import the restaurant csvs and sort them
-// 
-// create graph each city is a node
-// edges are weighted by 

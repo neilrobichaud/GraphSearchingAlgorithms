@@ -91,7 +91,9 @@ public class BreadthFirstSearch {
 	public void setPath(ArrayList<City> path) {
 		this.path = path;
 	}
-
+/*
+ * reverse the effects of the sort on each city object
+ */
 	public void restore() {
 		for (int i=0;i<FindPath.citylist.size();i++){
 			FindPath.citylist.get(i).visited = false;

@@ -45,6 +45,7 @@ public class FindPath {
 		citylist = readCityFromFile("2XB3_A3_DataSets/zips1990.csv");
 		readEdgeFromFile("2XB3_A3_DataSets/connectedCities.txt");
 		OutputFileCreate();
+		//System.out.print(rlist[100].name);
 	}
 /*
  * reads the input cities and runs bfs & dfs, storing the paths in the output file
@@ -94,7 +95,6 @@ public class FindPath {
 		printEdges();
 	}
 
-	
 
 	/*
 	 * method to help with testing and visualization of graph
@@ -103,8 +103,9 @@ public class FindPath {
 		for (int i = 0; i < citylist.size(); i++) {
 			if (!citylist.get(i).adjList.isEmpty()) {
 				for (int j = 0; j < citylist.get(i).adjList.size(); j++) {
-					System.out.println(citylist.get(i).adjList.get(j).weightToV() + " -->"
-							+ citylist.get(i).adjList.get(j).w.name);
+					
+					double x=(citylist.get(i).adjList.get(j).weightToV());// + " -->"
+							//+ citylist.get(i).adjList.get(j).w.name);
 				}
 
 			}
@@ -154,7 +155,7 @@ public class FindPath {
 				String k = input.nextLine();
 				String[] l = k.split(",");
 
-				Restaurant a = new Restaurant(Double.parseDouble(l[0]), Double.parseDouble(l[1]), l[2]);
+				Restaurant a = new Restaurant(Math.abs(Double.parseDouble(l[0])), Double.parseDouble(l[1]), l[2]);
 				current.add(a);
 			}
 

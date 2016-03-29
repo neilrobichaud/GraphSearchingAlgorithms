@@ -17,29 +17,28 @@ public class DepthFirstSearch {
 
 		dfs(source, Destination);
 	}
-
+/*
+ * return the path from this node back to the source
+ */
 	private ArrayList<City> retPath(City x) {
-
 		if (x.equals(source)) { // if reach source, add it and return path
-			// System.out.println("1" + x.name);
 			path.add(x);
 			return path;
 		} else {
 			if (x.edgeTo.w.equals(x)) {
-				// System.out.println("2" +x.name);
 				path.add(x);
 				retPath(x.edgeTo.v);
 			} else if (x.edgeTo.v.equals(x)) {
-				// System.out.println("3" +x.name);
 				path.add(x);
 				retPath(x.edgeTo.w);
 			}
 		}
 		return path;
 	}
-
+/*
+ * recursive dfs on citylist
+ */
 	private void dfs(City G, City Destination) {
-		// City c; // the next city to be searched
 		G.visited = true;
 		count++;
 		if (G.name.equalsIgnoreCase(Destination.name)) { // if G is the
@@ -91,11 +90,13 @@ public class DepthFirstSearch {
 	public int count() {
 		return count;
 	}
-
+/*
+ * reverse the effects of the sort on each city object
+ */
 	public void restore() {
 		for (int i = 0; i < FindPath.citylist.size(); i++) {
 			FindPath.citylist.get(i).visited = false;
-			FindPath.citylist.get(i).distTo = 100000000;
+			FindPath.citylist.get(i).distTo = 100000000; 			//used because its simpler than Math.Infinity but can be scaled up
 			FindPath.citylist.get(i).edgeTo = null;
 		}
 	}
