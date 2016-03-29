@@ -31,7 +31,7 @@ public class Edge {
 		double gasVolume=8.2/100 * distance;
 		double gasMoney = v.gasPrice/100 * gasVolume;
 		double foodMoney=searchRestaurant(w);
-		System.out.println(w.name + "--> " + v.name + " : " + gasMoney + " " + foodMoney);
+		//System.out.println(w.name + "--> " + v.name + " : " + gasMoney + " " + foodMoney);
 		double totalCost = foodMoney + gasMoney;		
 		return totalCost;
 	}

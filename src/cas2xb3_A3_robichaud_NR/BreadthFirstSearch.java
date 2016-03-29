@@ -3,7 +3,7 @@ package cas2xb3_A3_robichaud_NR;
 import java.util.ArrayList;
 
 public class BreadthFirstSearch {
-	private ArrayList<City> path = new ArrayList<City>();
+	private ArrayList<City> path;
 	private final City source;
 	private final City destination;
 
@@ -15,7 +15,7 @@ public class BreadthFirstSearch {
 	}
 
 	private ArrayList<City> retPath(City x) {
-
+		ArrayList<City> path = new ArrayList<City>();
 		if (x.equals(source)) { // if reach source, add it and return path
 			// System.out.println("1" + x.name);
 			path.add(x);

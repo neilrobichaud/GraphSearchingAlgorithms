@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class DepthFirstSearch {
 	// private City c;
 
-	private ArrayList<City> path = new ArrayList<City>();
+	private ArrayList<City> path;
 	private final City source;
 	private final City Destination;
 	int count;
@@ -21,14 +21,18 @@ public class DepthFirstSearch {
  * return the path from this node back to the source
  */
 	private ArrayList<City> retPath(City x) {
+		ArrayList<City> path = new ArrayList<City>();
 		if (x.equals(source)) { // if reach source, add it and return path
 			path.add(x);
 			return path;
 		} else {
+			
 			if (x.edgeTo.w.equals(x)) {
+				//System.out.println("x");
 				path.add(x);
 				retPath(x.edgeTo.v);
 			} else if (x.edgeTo.v.equals(x)) {
+				//System.out.println("y");
 				path.add(x);
 				retPath(x.edgeTo.w);
 			}
@@ -57,6 +61,7 @@ public class DepthFirstSearch {
 																// adjList
 
 					if (G.adjList.get(i).v != G) {
+						//System.out.print("x");
 						if (G.adjList.get(i).v.visited == false) {
 							G.adjList.get(i).v.edgeTo = G.adjList.get(i);
 							dfs(G.adjList.get(i).v, Destination);
@@ -64,6 +69,8 @@ public class DepthFirstSearch {
 					}
 
 					else if (G.adjList.get(i).w != G) {
+						System.out.print("y");
+
 						if (G.adjList.get(i).w.visited == false) {
 							G.adjList.get(i).w.edgeTo = G.adjList.get(i);
 							dfs(G.adjList.get(i).w, Destination);
@@ -76,7 +83,7 @@ public class DepthFirstSearch {
 	}
 
 	public ArrayList<City> getPath() {
-		return path;
+		return this.path;
 	}
 
 	public Boolean hasPathTo() {

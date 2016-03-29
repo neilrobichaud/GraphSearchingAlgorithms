@@ -47,15 +47,24 @@ public class FindPath {
 		citylist = readCityFromFile("2XB3_A3_DataSets/zips1990.csv");
 		readEdgeFromFile("2XB3_A3_DataSets/connectedCities.txt");
 		OutputFileCreate();
-		ShortestPath spath = new ShortestPath(cityfinder("portland","or").index);
-		Iterable<Edge> x = spath.pathTo(cityfinder("Boston","MA").index);
+		City city1 = cityfinder("portland","or");
+		City city2 = cityfinder("Boston","MA");
+		ShortestPath spath = new ShortestPath(city1.index);
+		Iterable<Edge> x = spath.pathTo(city2.index);
+		DepthFirstSearch q = new DepthFirstSearch(cityfinder("portland","or"),cityfinder("Boston","MA"));
+		ArrayList<City> gggg = q.getPath();
+		//gggg.add(citylist.get(0));
+		System.out.print(gggg.size());
+		//for (int i=0;i<g.size();i++){
+			//System.out.print(g.get(i).name + "--> ");
+		//}
 		//System.out.print(city,"finder("Boston","MA").index);
 		//System.out.print(spath.pathTo(11665));
 		for (Edge e: x){
 			System.out.print(e.w.name +" --> ");
 			
 		}
-		System.out.print(cityfinder("portland","or").name);
+		//System.out.print(cityfinder("portland","or").name);
 		
 		//	System.out.print(e.w.name+", ");
 		//}
@@ -66,7 +75,7 @@ public class FindPath {
  */
 	public static void OutputFileCreate() {
 		ArrayList<String[]> inputcities = readInTxt();
-
+		
 		breadthpath = new BreadthFirstSearch(cityfinder(inputcities.get(0)[0], inputcities.get(0)[1]),
 				cityfinder(inputcities.get(1)[0], inputcities.get(1)[1]));
 		String bfwrite = "";
@@ -81,13 +90,13 @@ public class FindPath {
 		for (int i = 0; i < depthpath.getPath().size(); i++) {
 			dfwrite = dfwrite + depthpath.getPath().get(depthpath.getPath().size() - i - 1).name + ",";
 		}
-
+		depthpath.restore();
 		BufferedWriter bw = null;
 		try {
 			bw = new BufferedWriter(new FileWriter("a3_out.txt")); // create
 																	// output.txt
 		} catch (IOException e) {
-			System.out.print("x");
+			//System.out.print("x");
 		}
 
 		try {
