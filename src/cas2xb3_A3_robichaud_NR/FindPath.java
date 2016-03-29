@@ -47,11 +47,16 @@ public class FindPath {
 		citylist = readCityFromFile("2XB3_A3_DataSets/zips1990.csv");
 		readEdgeFromFile("2XB3_A3_DataSets/connectedCities.txt");
 		OutputFileCreate();
-		ShortestPath spath = new ShortestPath(0);
-		spath.printstuff();
-		//System.out.print(cityfinder("Boston","MA").index);
+		ShortestPath spath = new ShortestPath(cityfinder("portland","or").index);
+		Iterable<Edge> x = spath.pathTo(cityfinder("Boston","MA").index);
+		//System.out.print(city,"finder("Boston","MA").index);
 		//System.out.print(spath.pathTo(11665));
-		//for (Edge e: spath.pathTo(cityfinder("Boston","MA").index)){
+		for (Edge e: x){
+			System.out.print(e.w.name +" --> ");
+			
+		}
+		System.out.print(cityfinder("portland","or").name);
+		
 		//	System.out.print(e.w.name+", ");
 		//}
 		//System.out.print(rlist[100].name);
@@ -101,7 +106,7 @@ public class FindPath {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		printEdges();
+		//printEdges();
 	}
 
 
@@ -126,8 +131,9 @@ public class FindPath {
 	 */
 	public static void addEdge(City x, City y, double weight) {
 		Edge e = new Edge(x, y, weight);
+		Edge e2 = new Edge(y,x,weight);
 		x.adjList.add(e);
-		y.adjList.add(e);
+		y.adjList.add(e2);
 	}
 
 	/*

@@ -35,9 +35,9 @@ public class ShortestPath {
 
     private void relax(Edge e) {
         int v = e.v.index, w = e.w.index;
-        if (distTo[w] > distTo[v] + e.weightToV()) {
-            distTo[w] = distTo[v] + e.weightToV();
-            FindPath.citylist.get(w).edgeTo = e;
+        if (distTo[w] > distTo[v] + e.weightToW()) {
+            distTo[w] = distTo[v] + e.weightToW();
+            edgeTo[w] = e;
             if (pq.contains(w)) pq.decreaseKey(w, distTo[w]);
             else                pq.insert(w, distTo[w]);
         }
@@ -49,8 +49,8 @@ public class ShortestPath {
         	return null;
         }
         Stack<Edge> path = new Stack<Edge>();
-        for (Edge e = FindPath.citylist.get(v).edgeTo; e != null; e = edgeTo[e.v.index]) {
-            path.add(e);
+        for (Edge e = edgeTo[v]; e != null; e = edgeTo[e.v.index]) {
+            path.push(e);
         }
         //Edge p = new Edge(FindPath.citylist.get(0),FindPath.citylist.get(1),2.0);
         //path.push(p);

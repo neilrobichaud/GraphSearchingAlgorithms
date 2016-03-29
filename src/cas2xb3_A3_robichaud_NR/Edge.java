@@ -31,6 +31,7 @@ public class Edge {
 		double gasVolume=8.2/100 * distance;
 		double gasMoney = v.gasPrice/100 * gasVolume;
 		double foodMoney=searchRestaurant(w);
+		System.out.println(w.name + "--> " + v.name + " : " + gasMoney + " " + foodMoney);
 		double totalCost = foodMoney + gasMoney;		
 		return totalCost;
 	}
@@ -43,7 +44,7 @@ public class Edge {
 		int closestInd = BinarySearch.indexOf(FindPath.rlist,x.lat);				//the index in rlist of the closest restaurant to City v
 		//System.out.print(closestInd + " ");
 		ArrayList<Restaurant> closeRestaurantList = BinarySearch.getlist(x.lat, x.lng, closestInd);
-		System.out.print(closeRestaurantList.get(0).name);
+		//System.out.print(closeRestaurantList.get(0).name);
 		Boolean wendy = true;
 		Boolean mcd = true;
 		Boolean bk = true;
@@ -60,7 +61,7 @@ public class Edge {
 				mcd=true;
 			}
 		}
-		if(mcd && bk && wendy){
+		if(mcd && bk && wendy && FindPath.mcdMenu.size()>0){
 			if(FindPath.mcdMenu.get(FindPath.mcdMenu.size()-1) < FindPath.bkMenu.get(FindPath.bkMenu.size()-1)){
 				if (FindPath.mcdMenu.get(FindPath.mcdMenu.size()-1) < FindPath.wendyMenu.get(FindPath.wendyMenu.size()-1)){
 					//mcd is smallest
@@ -91,7 +92,7 @@ public class Edge {
 				
 			}
 		}		
-		else{foodMoney=50;}
+		else{foodMoney=5;}
  		
 		//System.out.print("FoodMoney:" + foodMoney + "  ");
 		
