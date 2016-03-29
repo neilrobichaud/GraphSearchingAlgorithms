@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +25,9 @@ public class FindPath {
 	public static ArrayList<Double> mcdMenu;
 	public static ArrayList<Double> wendyMenu;
 	public static ArrayList<Double> bkMenu;
+	public static Double[] mcdList;
+	public static Double[] wendyList;
+	public static Double[] bkList;
 
 	public static void main(String[] args) {
 
@@ -40,6 +44,12 @@ public class FindPath {
 		citylist = new ArrayList<City>();
 		citylist = readCityFromFile("2XB3_A3_DataSets/zips1990.csv");
 		readEdgeFromFile("2XB3_A3_DataSets/connectedCities.txt");
+		OutputFileCreate();
+	}
+/*
+ * reads the input cities and runs bfs & dfs, storing the paths in the output file
+ */
+	public static void OutputFileCreate() {
 		ArrayList<String[]> inputcities = readInTxt();
 
 		breadthpath = new BreadthFirstSearch(cityfinder(inputcities.get(0)[0], inputcities.get(0)[1]),
@@ -84,28 +94,35 @@ public class FindPath {
 		printEdges();
 	}
 
+	
+
+	/*
+	 * method to help with testing and visualization of graph
+	 */
 	public static void printEdges() {
-		int count = 0;
 		for (int i = 0; i < citylist.size(); i++) {
 			if (!citylist.get(i).adjList.isEmpty()) {
 				for (int j = 0; j < citylist.get(i).adjList.size(); j++) {
-					System.out.println(
-							citylist.get(i).adjList.get(j).weightToV() + " -->" + citylist.get(i).adjList.get(j).w.name);
-					count++;
+					System.out.println(citylist.get(i).adjList.get(j).weightToV() + " -->"
+							+ citylist.get(i).adjList.get(j).w.name);
 				}
 
 			}
 		}
-		// System.out.print(count);
-		// System.out.print(cityfinder("Boston").adjList.get(0).weight);
 	}
 
+	/*
+	 * adds an edge between two cities with the given weight
+	 */
 	public static void addEdge(City x, City y, double weight) {
 		Edge e = new Edge(x, y, weight);
 		x.adjList.add(e);
 		y.adjList.add(e);
 	}
 
+	/*
+	 * reads the a3_in.txt file and returns arrayList of [city,state]
+	 */
 	public static ArrayList<String[]> readInTxt() {
 		ArrayList<String[]> lst = new ArrayList<String[]>();
 		Scanner input;
@@ -125,20 +142,10 @@ public class FindPath {
 		return lst;
 	}
 
-	public static ArrayList<Restaurant> readRestaurantFromFile(String filename) { // method
-		// to
-		// read
-		// from
-		// the
-		// input
-		// file,
-		// returns
-		// each
-		// line
-		// as an
-		// string
-		// in an
-		// arraylist
+	/*
+	 * reads the restaurants in and returns arrayList of restaurants
+	 */
+	public static ArrayList<Restaurant> readRestaurantFromFile(String filename) {
 		Scanner input;
 		ArrayList<Restaurant> current = new ArrayList<Restaurant>();
 		try {
@@ -156,8 +163,7 @@ public class FindPath {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return current;// .toArray(new Restaurant[current.size()]); //returns
-						// the arraylist
+		return current;
 	}
 
 	public static void readMenuFromFile(String filename) {
@@ -168,22 +174,54 @@ public class FindPath {
 				String k = input.nextLine();
 				String[] l = k.split(",");
 				if (l[0].contains("McDonald")) {
-					mcdMenu.add(Double.parseDouble(l[2].replaceAll("$","")));				//saves menu prices to respective list
+					mcdMenu.add(Double.parseDouble(l[2].replaceAll("$", ""))); // saves
+																				// menu
+																				// prices
+																				// to
+																				// their
+																				// respective
+																				// lists
 				} else if (l[0].contains("Burger King")) {
-					bkMenu.add(Double.parseDouble(l[2].replaceAll("$","")));
+					bkMenu.add(Double.parseDouble(l[2].replaceAll("$", "")));
 				} else if (l[0].contains("Wendy's")) {
-					wendyMenu.add(Double.parseDouble(l[2].replaceAll("$","")));
+					wendyMenu.add(Double.parseDouble(l[2].replaceAll("$", "")));
 				}
-				Restaurant a = new Restaurant(Double.parseDouble(l[0]), Double.parseDouble(l[1]), l[2]);
-
 			}
 
 			input.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
+		wendyList = wendyMenu.toArray(new Double[wendyMenu.size()]); // sort all
+																		// the
+																		// menus
+		InsertionSort.sort(wendyList);
+		wendyList = reverser(wendyList);
+		wendyMenu = new ArrayList<Double>(Arrays.asList(wendyList));
 
+		mcdList = mcdMenu.toArray(new Double[mcdMenu.size()]);
+		InsertionSort.sort(mcdList);
+		mcdList = reverser(mcdList);
+		mcdMenu = new ArrayList<Double>(Arrays.asList(mcdList));
+
+		bkList = bkMenu.toArray(new Double[bkMenu.size()]);
+		InsertionSort.sort(bkList);
+		bkList = reverser(bkList);
+		bkMenu = new ArrayList<Double>(Arrays.asList(bkList));
+
+	}
+
+	/*
+	 * method to reverse an array
+	 */
+	public static Double[] reverser(Double[] a) {
+		for (int i = 0; i < a.length / 2; i++) {
+			double temp = a[i];
+			a[i] = a[a.length - i - 1];
+			a[a.length - i - 1] = temp;
+		}
+		return a;
 	}
 
 	public static ArrayList<City> readCityFromFile(String filename) {
@@ -193,14 +231,14 @@ public class FindPath {
 			input = new Scanner(new File(filename));
 			input.nextLine(); // skip first row of headers
 			while (input.hasNextLine()) {
-				
+
 				String k = input.nextLine();
 				String[] l = k.split(",");
 				if (cityfinder(l[3], l[2]) == null) { // if city is not already
 														// in citylist
 					String gasPrice = (gasStateDictionary.get(l[2]));
-					if (gasPrice==null){
-						gasPrice ="50";
+					if (gasPrice == null) {
+						gasPrice = "50"; // default price, to prevent errors
 					}
 					City a = new City(Double.parseDouble(l[4]), Double.parseDouble(l[5]), l[3], l[2], gasPrice);
 					current.add(a);
@@ -212,21 +250,18 @@ public class FindPath {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return current;// .toArray(new Restaurant[current.size()]); //returns
-						// the arraylist
+		return current;
 	}
 
-	public static void readEdgeFromFile(String filename) { // method to read
-															// from the input
-															// file, returns
-															// each line as an
-															// string in an
-															// arraylist
+	/*
+	 * reads edges from file and adds them to their respective cities
+	 */
+	public static void readEdgeFromFile(String filename) {
 		Scanner input;
 		int open;
 		int closed;
 		Boolean first;
-		ArrayList<City> current = new ArrayList<City>();
+
 		try {
 			input = new Scanner(new File(filename));
 
@@ -271,17 +306,12 @@ public class FindPath {
 						}
 
 						if (found1 == true && found2 == true) {
-							// System.out.println(tuple1[0] + " " +
-							// statelist1[ind1]);
-							// System.out.println(tuple2[0] + " " +
-							// statelist2[ind2]);
 							addEdge(cityfinder(tuple1[0], statelist1[ind1]), cityfinder(tuple2[0], statelist2[ind2]),
 									2);
 						} else {
 							System.out.println(tuple1[0] + "," + tuple2[0]);
 						}
-						// System.out.println(tuple2[0]);
-						// System.out.println(secondcity);
+
 						first = false;
 					}
 				}
@@ -290,13 +320,15 @@ public class FindPath {
 
 			input.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
-		// return current;//.toArray(new Restaurant[current.size()]); //returns
-		// the arraylist
+
 	}
 
+	/*
+	 * reads the gas data and return a dictionary of [State, Price]
+	 */
 	public static Map<String, String> readGasFromFile(String filename) {
 		Scanner input;
 		Map<String, String> dictionary = new HashMap<String, String>();
@@ -305,9 +337,9 @@ public class FindPath {
 			input.nextLine(); // skip first row of headers
 			while (input.hasNextLine()) {
 				String k = input.nextLine();
-				k=k.trim();
+				k = k.trim();
 				String[] l = k.split(",");
-				
+
 				dictionary.put(l[0], l[1]);
 			}
 
@@ -334,6 +366,3 @@ public class FindPath {
 	}
 
 }
-// store meal choices in priority queues
-// when you go to a city compare the tops of the three stacks
-// pop off lowest price
