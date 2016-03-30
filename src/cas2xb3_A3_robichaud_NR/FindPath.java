@@ -53,7 +53,7 @@ public class FindPath {
 		Iterable<Edge> x = spath.pathTo(city2.index);
 		
 		
-		DepthFirstSearch q = new DepthFirstSearch(cityfinder("Memphis","tn"));
+		DepthFirstSearch q = new DepthFirstSearch(cityfinder("chicago","il"));
 		Iterable<City> g = q.pathTo(cityfinder("dallas","tx"));
 		System.out.println();
 		for (City c: g){
@@ -62,7 +62,7 @@ public class FindPath {
 		q.restore();
 		System.out.println();
 		
-		BreadthFirstSearch breadthpath = new BreadthFirstSearch(cityfinder("Memphis","tn"));
+		BreadthFirstSearch breadthpath = new BreadthFirstSearch(cityfinder("chicago","il"));
 		Iterable<City> b = breadthpath.pathTo(cityfinder("dallas","tx"));
 		
 		for(City p: b){
@@ -72,9 +72,9 @@ public class FindPath {
 
 		System.out.println();
 
-		for (Edge e: x){
-			System.out.print(e.w.name +" --> ");			
-		}
+//		for (Edge e: x){
+//			System.out.print(e.w.name +" --> ");			
+//		}
 		//System.out.print(cityfinder("portland","or").name);
 		
 		//	System.out.print(e.w.name+", ");

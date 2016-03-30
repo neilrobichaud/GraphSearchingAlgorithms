@@ -1,0 +1,10 @@
+3.1
+I will use an Edge Weighted Digraph to solve this problem. 
+The nodes of the graph are represented by Cities. 
+The Edges represent a trip between two cities, and the edge weight is the cost of doing that trip taking into account food and gas prices.
+
+I will first create a graph of all the cities in zips1990.csv, then I will create edges between all the cities in connectedcities.txt. This will allow me to use BFS and DFS to find paths to different cities. Finally to implement shortest paths, I will create a method that dynamically determines the weight of an edge as it is being traversed according to the gas price of its state and the lowest cost food option nearby.
+
+3.2
+They returned different results. BFS completed dallas to memphis in 6 steps, and DFS did it in 12 steps.
+This will remain true if there are more cities since all cities are assumed to be connected, it is possible for dfs to find a solution that longer than the optimal solution by traversing along a branch and looping back to a city near the start, while BFS would find this city in optimal time. BFS will usually be faster than DFS for large graphs.
