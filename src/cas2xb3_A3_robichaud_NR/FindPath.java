@@ -51,15 +51,26 @@ public class FindPath {
 		City city2 = cityfinder("Boston","MA");
 		ShortestPath spath = new ShortestPath(city1.index);
 		Iterable<Edge> x = spath.pathTo(city2.index);
-		DepthFirstSearch q = new DepthFirstSearch(cityfinder("portland","or"),cityfinder("Boston","MA"));
-		ArrayList<City> gggg = q.getPath();
-		//gggg.add(citylist.get(0));
-		System.out.print(gggg.size());
-		//for (int i=0;i<g.size();i++){
-			//System.out.print(g.get(i).name + "--> ");
-		//}
-		//System.out.print(city,"finder("Boston","MA").index);
-		//System.out.print(spath.pathTo(11665));
+		
+		
+		DepthFirstSearch q = new DepthFirstSearch(cityfinder("Memphis","tn"));
+		Iterable<City> g = q.pathTo(cityfinder("dallas","tx"));
+		System.out.println();
+		for (City c: g){
+			System.out.print(c.name+ "--> ");
+		}
+		q.restore();
+		
+		BreadthFirstSearch breadthpath = new BreadthFirstSearch(cityfinder("Memphis","tn"));
+		Iterable<City> b = breadthpath.pathTo(cityfinder("dallas","tx"));
+		
+		for(City p: b){
+			System.out.print(p.name + "--> ");
+		}
+		breadthpath.restore();
+
+		System.out.println();
+
 		for (Edge e: x){
 			System.out.print(e.w.name +" --> ");
 			
@@ -76,19 +87,19 @@ public class FindPath {
 	public static void OutputFileCreate() {
 		ArrayList<String[]> inputcities = readInTxt();
 		
-		breadthpath = new BreadthFirstSearch(cityfinder(inputcities.get(0)[0], inputcities.get(0)[1]),
-				cityfinder(inputcities.get(1)[0], inputcities.get(1)[1]));
+		breadthpath = new BreadthFirstSearch(cityfinder(inputcities.get(0)[0], inputcities.get(0)[1]));
+		Iterable<City> b = breadthpath.pathTo(cityfinder(inputcities.get(1)[0], inputcities.get(1)[1]));
 		String bfwrite = "";
-		for (int i = 0; i < breadthpath.getPath().size(); i++) {
-			bfwrite = bfwrite + breadthpath.getPath().get(breadthpath.getPath().size() - i - 1).name + ",";
+		for(City c: b){
+			bfwrite = bfwrite + c.name + ",";
 		}
 		breadthpath.restore();
 
-		depthpath = new DepthFirstSearch(cityfinder(inputcities.get(0)[0], inputcities.get(0)[1]),
-				cityfinder(inputcities.get(1)[0], inputcities.get(1)[1]));
+		depthpath = new DepthFirstSearch(cityfinder(inputcities.get(0)[0], inputcities.get(0)[1]));
+		Iterable<City> d = depthpath.pathTo(cityfinder(inputcities.get(1)[0], inputcities.get(1)[1]));
 		String dfwrite = "";
-		for (int i = 0; i < depthpath.getPath().size(); i++) {
-			dfwrite = dfwrite + depthpath.getPath().get(depthpath.getPath().size() - i - 1).name + ",";
+		for(City c: d){
+			dfwrite = dfwrite + c.name + ",";
 		}
 		depthpath.restore();
 		BufferedWriter bw = null;
