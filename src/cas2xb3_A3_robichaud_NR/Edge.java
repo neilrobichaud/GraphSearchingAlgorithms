@@ -5,13 +5,13 @@ import java.util.ArrayList;
 public class Edge {
 	City v;
 	City w;
-	double weight;
+
 	String cheapestR;
 	
-	public Edge(City v, City w, double weight){
+	public Edge(City v, City w){
 		this.v = v;
 		this.w = w;
-		this.weight = weight;			
+		
 	}
 	
 	/*

@@ -1,2 +1,2 @@
-dallas,TX
 Memphis,TN
+dallas,TX

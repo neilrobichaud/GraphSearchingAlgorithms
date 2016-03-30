@@ -6,7 +6,9 @@ public class ShortestPath {
     private double[] distTo;          // distTo[v] = distance  of shortest s->v path
     private Edge[] edgeTo;    // edgeTo[v] = last edge on shortest s->v path
     private IndexMinPQ<Double> pq;    // priority queue of vertices
+    private int source;
     public ShortestPath(int s) {
+    	this.source = s;
         distTo = new double[FindPath.citylist.size()];
         edgeTo = new Edge[FindPath.citylist.size()];
         for (int v = 0; v < FindPath.citylist.size(); v++)
@@ -52,8 +54,8 @@ public class ShortestPath {
         for (Edge e = edgeTo[v]; e != null; e = edgeTo[e.v.index]) {
             path.push(e);
         }
-        //Edge p = new Edge(FindPath.citylist.get(0),FindPath.citylist.get(1),2.0);
-        //path.push(p);
+        
+
         return path;
     }
     public boolean hasPathTo(int v) {

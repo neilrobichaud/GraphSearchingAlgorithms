@@ -47,8 +47,8 @@ public class FindPath {
 		citylist = readCityFromFile("2XB3_A3_DataSets/zips1990.csv");
 		readEdgeFromFile("2XB3_A3_DataSets/connectedCities.txt");
 		OutputFileCreate();
-		City city1 = cityfinder("portland","or");
-		City city2 = cityfinder("Boston","MA");
+		City city1 = cityfinder("memphis","tn");
+		City city2 = cityfinder("dallas","tx");
 		ShortestPath spath = new ShortestPath(city1.index);
 		Iterable<Edge> x = spath.pathTo(city2.index);
 		
@@ -60,6 +60,7 @@ public class FindPath {
 			System.out.print(c.name+ "--> ");
 		}
 		q.restore();
+		System.out.println();
 		
 		BreadthFirstSearch breadthpath = new BreadthFirstSearch(cityfinder("Memphis","tn"));
 		Iterable<City> b = breadthpath.pathTo(cityfinder("dallas","tx"));
@@ -72,8 +73,7 @@ public class FindPath {
 		System.out.println();
 
 		for (Edge e: x){
-			System.out.print(e.w.name +" --> ");
-			
+			System.out.print(e.w.name +" --> ");			
 		}
 		//System.out.print(cityfinder("portland","or").name);
 		
@@ -94,8 +94,9 @@ public class FindPath {
 			bfwrite = bfwrite + c.name + ",";
 		}
 		breadthpath.restore();
-
-		depthpath = new DepthFirstSearch(cityfinder(inputcities.get(0)[0], inputcities.get(0)[1]));
+	
+		
+		DepthFirstSearch depthpath = new DepthFirstSearch(cityfinder(inputcities.get(0)[0], inputcities.get(0)[1]));
 		Iterable<City> d = depthpath.pathTo(cityfinder(inputcities.get(1)[0], inputcities.get(1)[1]));
 		String dfwrite = "";
 		for(City c: d){
@@ -114,7 +115,7 @@ public class FindPath {
 			bw.write("BFS: ");
 			bw.write(bfwrite);
 			bw.append('\n');
-			bw.write("DFS:");
+			bw.write("DFS: ");
 			bw.write(dfwrite);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -149,9 +150,9 @@ public class FindPath {
 	/*
 	 * adds an edge between two cities with the given weight
 	 */
-	public static void addEdge(City x, City y, double weight) {
-		Edge e = new Edge(x, y, weight);
-		Edge e2 = new Edge(y,x,weight);
+	public static void addEdge(City x, City y) {
+		Edge e = new Edge(x, y);
+		Edge e2 = new Edge(y,x);
 		x.adjList.add(e);
 		y.adjList.add(e2);
 	}
@@ -349,8 +350,7 @@ public class FindPath {
 						}
 
 						if (found1 == true && found2 == true) {
-							addEdge(cityfinder(tuple1[0], statelist1[ind1]), cityfinder(tuple2[0], statelist2[ind2]),
-									2);
+							addEdge(cityfinder(tuple1[0], statelist1[ind1]), cityfinder(tuple2[0], statelist2[ind2]));
 						} else {
 							System.out.println(tuple1[0] + "," + tuple2[0]);
 						}
