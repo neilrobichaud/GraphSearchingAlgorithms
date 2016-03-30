@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Dictionary;
@@ -13,6 +14,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class FindPath {
+	static Map<String, String> menuDict;
 	public static ArrayList<String> MDmeals; // sorted arraylist of meals in
 												// decreasing order of price
 	public static ArrayList<String> BKmeals;
@@ -34,52 +36,58 @@ public class FindPath {
 		ArrayList<Restaurant> bklist = readRestaurantFromFile("2XB3_A3_DataSets/burgerking.csv");
 		ArrayList<Restaurant> mcdlist = readRestaurantFromFile("2XB3_A3_DataSets/mcdonalds.csv");
 		ArrayList<Restaurant> wendyslist = readRestaurantFromFile("2XB3_A3_DataSets/wendys.csv");
+		
 		ArrayList<Restaurant> allRList = new ArrayList<Restaurant>();
 		allRList.addAll(bklist);
 		allRList.addAll(mcdlist);
 		allRList.addAll(wendyslist);
+		
 		rlist = allRList.toArray(new Restaurant[allRList.size()]);
 		InsertionSort.sort(rlist);
+		
 		gasStateDictionary = readGasFromFile("2XB3_A3_DataSets/StateGasPrice.csv");
+		
 		readMenuFromFile("2XB3_A3_DataSets/menu.csv");
+		
 		
 		citylist = new ArrayList<City>();
 		citylist = readCityFromFile("2XB3_A3_DataSets/zips1990.csv");
+		
 		readEdgeFromFile("2XB3_A3_DataSets/connectedCities.txt");
+		
 		OutputFileCreate();
-		City city1 = cityfinder("memphis","tn");
-		City city2 = cityfinder("dallas","tx");
-		ShortestPath spath = new ShortestPath(city1.index);
-		Iterable<Edge> x = spath.pathTo(city2.index);
 		
 		
-		DepthFirstSearch q = new DepthFirstSearch(cityfinder("chicago","il"));
-		Iterable<City> g = q.pathTo(cityfinder("dallas","tx"));
-		System.out.println();
-		for (City c: g){
-			System.out.print(c.name+ "--> ");
-		}
-		q.restore();
-		System.out.println();
-		
-		BreadthFirstSearch breadthpath = new BreadthFirstSearch(cityfinder("chicago","il"));
-		Iterable<City> b = breadthpath.pathTo(cityfinder("dallas","tx"));
-		
-		for(City p: b){
-			System.out.print(p.name + "--> ");
-		}
-		breadthpath.restore();
-
-		System.out.println();
-
-//		for (Edge e: x){
-//			System.out.print(e.w.name +" --> ");			
+//		City city1 = cityfinder("chicago","il");
+//		City city2 = cityfinder("dallas","tx");
+//		ShortestPath spath = new ShortestPath(city1.index);
+//		Iterable<Edge> x = spath.pathTo(city2.index);
+//		
+//		
+//		DepthFirstSearch q = new DepthFirstSearch(cityfinder("chicago","il"));
+//		Iterable<City> g = q.pathTo(cityfinder("dallas","tx"));
+//		System.out.println();
+//		for (City c: g){
+//			System.out.print(c.name+ "--> ");
 //		}
-		//System.out.print(cityfinder("portland","or").name);
-		
-		//	System.out.print(e.w.name+", ");
-		//}
-		//System.out.print(rlist[100].name);
+//		q.restore();
+//		System.out.println();
+//		
+//		BreadthFirstSearch breadthpath = new BreadthFirstSearch(cityfinder("chicago","il"));
+//		Iterable<City> b = breadthpath.pathTo(cityfinder("dallas","tx"));
+//		
+//		for(City p: b){
+//			System.out.print(p.name + "--> ");
+//		}
+//		breadthpath.restore();
+//
+//		System.out.println();
+//
+//		for (Edge e: x){
+//			System.out.print(e.v.name +" --> ");			
+//		}
+//		System.out.print(menuDict.get("6.39"));
+
 	}
 /*
  * reads the input cities and runs bfs & dfs, storing the paths in the output file
@@ -103,12 +111,20 @@ public class FindPath {
 			dfwrite = dfwrite + c.name + ",";
 		}
 		depthpath.restore();
+		NumberFormat formatter = NumberFormat.getCurrencyInstance();													//formats doubles to money
+
+		City city1 = cityfinder(inputcities.get(0)[0], inputcities.get(0)[1]);
+		City city2 = cityfinder(inputcities.get(1)[0], inputcities.get(1)[1]);
+		ShortestPath spath = new ShortestPath(city1.index);
+		Iterable<Edge> x = spath.pathTo(city2.index);
+
+		
 		BufferedWriter bw = null;
 		try {
 			bw = new BufferedWriter(new FileWriter("a3_out.txt")); // create
 																	// output.txt
 		} catch (IOException e) {
-			//System.out.print("x");
+			
 		}
 
 		try {
@@ -117,6 +133,21 @@ public class FindPath {
 			bw.append('\n');
 			bw.write("DFS: ");
 			bw.write(dfwrite);
+			bw.append('\n');
+			bw.append('\n');
+			bw.write(String.format("%20s %40s %20s %20s %20s \r\n", "City", "Meal Choice", "Cost of Meal", "Cost of Fuel", "Total Cost"));
+			bw.write(String.format("%20s %40s %20s %20s %20s \r\n", city2.name + " "+city2.state, "---", "$0.00", "$0.00", "$0.00"));
+			for(Edge e: x){
+			String totalCost = formatter.format(e.weightWithFood());
+			String city = e.v.name;
+			String mealPrice = (formatter.format(e.foodMoney));
+			String mealChoice = e.mealChoice;
+			String fuelCost = formatter.format(e.gasMoney);
+			
+			bw.write(String.format("%20s %40s %20s %20s %20s \r\n", city, mealChoice, mealPrice, fuelCost, totalCost));
+			}
+			
+
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -128,23 +159,6 @@ public class FindPath {
 			e.printStackTrace();
 		}
 		//printEdges();
-	}
-
-
-	/*
-	 * method to help with testing and visualization of graph
-	 */
-	public static void printEdges() {
-		for (int i = 0; i < citylist.size(); i++) {
-			if (!citylist.get(i).adjList.isEmpty()) {
-				for (int j = 0; j < citylist.get(i).adjList.size(); j++) {
-					
-					System.out.println(citylist.get(i).adjList.get(j).weightToV());// + " -->"
-							//+ citylist.get(i).adjList.get(j).w.name);
-				}
-
-			}
-		}
 	}
 
 	/*
@@ -205,6 +219,7 @@ public class FindPath {
 	}
 
 	public static void readMenuFromFile(String filename) {
+		menuDict = new HashMap<String, String>();
 		Scanner input;
 		try {
 			input = new Scanner(new File(filename));
@@ -214,7 +229,7 @@ public class FindPath {
 				String[] l = k.split(",");
 				l[2] = l[2].replaceAll("[^\\d.]+", "");
 				double price = Double.parseDouble(l[2]);
-				
+				menuDict.put(l[2], l[1]);									//a dictionary relating prices to meal names
 				if (l[0].contains("McDonald")) {
 					
 					mcdMenu.add(price); // saves
@@ -411,7 +426,7 @@ public class FindPath {
 }
 //TODO
 /*
- * implement shortest path alg
+
  * write answers to written question
  * junit test cases
  */

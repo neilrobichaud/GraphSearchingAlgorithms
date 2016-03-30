@@ -7,6 +7,7 @@ public class ShortestPath {
     private Edge[] edgeTo;    // edgeTo[v] = last edge on shortest s->v path
     private IndexMinPQ<Double> pq;    // priority queue of vertices
     private int source;
+    
     public ShortestPath(int s) {
     	this.source = s;
         distTo = new double[FindPath.citylist.size()];
@@ -24,13 +25,8 @@ public class ShortestPath {
                 relax(e);
         }
 
-        // check optimality conditions
+
         
-    }
-    public void printstuff(){
-    	//for (int i=0;i<edgeTo.length;i++){
-    	//System.out.print();
-    	//}
     }
 
     // relax edge e and update pq if changed
@@ -41,7 +37,7 @@ public class ShortestPath {
             distTo[w] = distTo[v] + e.weightToW();
             edgeTo[w] = e;
             if (pq.contains(w)) pq.decreaseKey(w, distTo[w]);
-            else                pq.insert(w, distTo[w]);
+            else  pq.insert(w, distTo[w]);
         }
        
     }
@@ -53,9 +49,12 @@ public class ShortestPath {
         Stack<Edge> path = new Stack<Edge>();
         for (Edge e = edgeTo[v]; e != null; e = edgeTo[e.v.index]) {
             path.push(e);
-        }
-        
-
+        }     
+//        Edge e = path.peek();
+//        Edge e1 = new Edge(e.v, e.v);
+//        e1.weightToW();
+//        path.push(e);
+        //System.out.print(e.v.name + "->" + e.w.name);
         return path;
     }
     public boolean hasPathTo(int v) {

@@ -5,7 +5,10 @@ import java.util.ArrayList;
 public class Edge {
 	City v;
 	City w;
-
+	double foodMoney;
+	double gasMoney;
+	double totalCost;
+	String mealChoice;
 	String cheapestR;
 	
 	public Edge(City v, City w){
@@ -18,29 +21,25 @@ public class Edge {
 	 * a series of methods to weight an edge
 	 */
 	
-	public double weightToV(){
-		double distance = getDistanceKm(v.lat,v.lng,w.lat,w.lng);
-		double gasVolume=8.2/100 * distance;
-		double gasMoney = w.gasPrice/100 * gasVolume;
-		double foodMoney=searchRestaurant(v);
-		double totalCost = foodMoney + gasMoney;		
+	public double weightWithFood(){
+		foodMoney=searchRestaurant(w);		
+		mealChoice = FindPath.menuDict.get(Double.toString(foodMoney));
+		totalCost = foodMoney + gasMoney;
 		return totalCost;
 	}
 	public double weightToW(){
 		double distance = getDistanceKm(w.lat,w.lng,v.lat,v.lng);
 		double gasVolume=8.2/100 * distance;
-		double gasMoney = v.gasPrice/100 * gasVolume;
-		double foodMoney=searchRestaurant(w);
-		//System.out.println(w.name + "--> " + v.name + " : " + gasMoney + " " + foodMoney);
-		double totalCost = foodMoney + gasMoney;		
-		return totalCost;
+		gasMoney = v.gasPrice/100 * gasVolume;
+		totalCost = gasMoney;
+		return gasMoney;
 	}
 	/*
 	 * the hard way to find the cheapest restaurant at any given city
 	 */
 	public double searchRestaurant(City x){
 		
-		double foodMoney=0;
+		foodMoney=0;
 		int closestInd = BinarySearch.indexOf(FindPath.rlist,x.lat);				//the index in rlist of the closest restaurant to City v
 		//System.out.print(closestInd + " ");
 		ArrayList<Restaurant> closeRestaurantList = BinarySearch.getlist(x.lat, x.lng, closestInd);
@@ -61,7 +60,7 @@ public class Edge {
 				mcd=true;
 			}
 		}
-		if(mcd && bk && wendy && FindPath.mcdMenu.size()>0){
+		if(mcd && bk && wendy && FindPath.mcdMenu.size()>0 && FindPath.wendyMenu.size()>0 && FindPath.bkMenu.size()>0){
 			if(FindPath.mcdMenu.get(FindPath.mcdMenu.size()-1) < FindPath.bkMenu.get(FindPath.bkMenu.size()-1)){
 				if (FindPath.mcdMenu.get(FindPath.mcdMenu.size()-1) < FindPath.wendyMenu.get(FindPath.wendyMenu.size()-1)){
 					//mcd is smallest
@@ -94,8 +93,8 @@ public class Edge {
 		}		
 		else{foodMoney=5;}
  		
-		//System.out.print("FoodMoney:" + foodMoney + "  ");
-		
+		System.out.print("FoodMoney:" + foodMoney + "  ");
+		mealChoice = FindPath.menuDict.get(foodMoney);
 		return foodMoney;
 	}
 	public double getDistanceKm(double lat1,double lon1,double lat2,double lon2) { //haversine formula from google
