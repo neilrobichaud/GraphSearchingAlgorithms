@@ -22,7 +22,6 @@ public class BinarySearch {
     public static ArrayList<Restaurant> getlist(double restaurantlat, double restaurantlng, int closestlatindex){
     	ArrayList<Restaurant> closeLatList= new ArrayList<Restaurant>();
     	int i = closestlatindex;
-    	//System.out.print(Math.abs(FindPath.rlist[i].lat - restaurantlat));
     	while (Math.abs(FindPath.rlist[i].lat - restaurantlat) < 0.5  && FindPath.rlist[i].visited != true && i<FindPath.rlist.length){		//adds all unvisiteed restaurant within -0.5 lat points
     		closeLatList.add(FindPath.rlist[i]);
     		i--;

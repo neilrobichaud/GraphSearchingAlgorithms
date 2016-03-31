@@ -41,15 +41,11 @@ public class Edge {
 		foodMoney=0;
 		
 		int closestInd = BinarySearch.indexOf(FindPath.rlist,x.lat);				//the index in rlist of the closest restaurant to City v
-		//System.out.print(closestInd + " ");
 		ArrayList<Restaurant> closeRestaurantList = BinarySearch.getlist(x.lat, x.lng, closestInd);
-		//System.out.print(closeRestaurantList.get(0).name);
 		Boolean wendy = false;
 		Boolean mcd = false;
 		Boolean bk = false;
-		//System.out.print(closeRestaurantList.size() + " ");
 		for (int i=0; i< closeRestaurantList.size();i++){
-			//System.out.print(closeRestaurantList.get(i).name);
 			if (closeRestaurantList.get(i).name.contains("Wendy's")){
 				wendy=true;
 			}

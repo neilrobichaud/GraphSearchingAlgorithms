@@ -51,11 +51,7 @@ public class ShortestPath {
         for (Edge e = edgeTo[v]; e != null; e = edgeTo[e.v.index]) {
             path.add(e);
         }     
-//        Edge e = path.peek();
-//        Edge e1 = new Edge(e.v, e.v);
-//        e1.weightToW();
-//        path.push(e);
-        //System.out.print(e.v.name + "->" + e.w.name);
+
         return path;
     }
     public boolean hasPathTo(int v) {
