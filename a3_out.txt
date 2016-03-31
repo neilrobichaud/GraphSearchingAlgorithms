@@ -1,11 +1,9 @@
-BFS: DALLAS,HOUSTON,NEW ORLEANS,MEMPHIS,SAINT LOUIS,CHICAGO,
-DFS: DALLAS,HOUSTON,NEW ORLEANS,ATLANTA,CHARLOTTE,WASHINGTON,BALTIMORE,PHILADELPHIA,NEW YORK,EAST PITTSBURGH,COLUMBUS,CHICAGO,
+BFS: MEMPHIS,SAINT LOUIS,CHICAGO,MINNEAPOLIS,SEATTLE,SALT LAKE CITY,LAS VEGAS,ALBUQUERQUE,DALLAS,
+DFS: MEMPHIS,NEW ORLEANS,HOUSTON,DALLAS,
 
                 City                              Meal Choice         Cost of Meal         Cost of Fuel           Total Cost 
-           DALLAS TX                                      ---                $0.00                $0.00                $0.00 
-             HOUSTON                         McChicken - Meal                $3.79                $7.96               $11.75 
-         NEW ORLEANS               Double Cheeseburger - Meal                $4.38               $32.28               $36.66 
-             MEMPHIS       Quarter Pounder with Cheese - Meal                $5.49                $0.17                $5.66 
-         SAINT LOUIS                      Filet-O-Fish - Meal                $5.49                $0.82                $6.31 
-             CHICAGO              Double Cheeseburgers - Meal                $5.49               $15.25               $20.74 
-       Grand Totals:                                                        $24.64               $56.49               $81.13 
+          MEMPHIS,TN                         McChicken - Meal                $3.79                $0.17                $3.96 
+      NEW ORLEANS,LA               Double Cheeseburger - Meal                $4.38               $32.28               $36.66 
+          HOUSTON,TX       Quarter Pounder with Cheese - Meal                $5.49                $7.96               $13.45 
+           DALLAS,TX                                      ---                  ---                  ---                  --- 
+       Grand Totals:                                                        $13.66               $40.41               $54.07 

@@ -1,2 +1,2 @@
-chicago,IL
-dallas,TX
+memphis,tn
+dallas,tx

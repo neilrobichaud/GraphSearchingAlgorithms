@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class DepthFirstSearch {
-	// private City c;
+	private ArrayList<City> citylist;
 
 	private ArrayList<City> path;
 	private final City source;	
 	int count;
 
-	public DepthFirstSearch(City source) {		count = 0;
-		
+	public DepthFirstSearch(ArrayList<City> citylist,City source) {		count = 0;
+		this.citylist = citylist;
 		this.source = source;
 
 		dfs(source);
@@ -34,12 +34,12 @@ public class DepthFirstSearch {
 
 	}
 	
-    public Iterable<City> pathTo(City v) {
+    public ArrayList<City> pathTo(City v) {
         if (!hasPathTo(v)) return null;
-        Stack<City> path = new Stack<City>();
+        ArrayList<City> path = new ArrayList<City>();
         for (City x = v; x != source; x = x.edgeTo.v)
-            path.push(x);
-        path.push(source);
+            path.add(x);
+        path.add(source);
         return path;
     }
     public boolean hasPathTo(City v) {
@@ -54,13 +54,13 @@ public class DepthFirstSearch {
 	 * reverse the effects of the sort on each city object
 	 */
 	public void restore() {
-		for (int i = 0; i < FindPath.citylist.size(); i++) {
-			FindPath.citylist.get(i).visited = false;
-			FindPath.citylist.get(i).distTo = 100000000; // used because its
+		for (int i = 0; i < citylist.size(); i++) {
+			citylist.get(i).visited = false;
+			citylist.get(i).distTo = 100000000; // used because its
 															// simpler than
 															// Math.Infinity but
 															// can be scaled up
-			FindPath.citylist.get(i).edgeTo = null;
+			citylist.get(i).edgeTo = null;
 		}
 	}
 

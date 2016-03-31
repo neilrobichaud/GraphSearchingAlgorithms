@@ -1,5 +1,6 @@
 package cas2xb3_A3_robichaud_NR;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class ShortestPath {
@@ -41,14 +42,14 @@ public class ShortestPath {
         }
        
     }
-    public Iterable<Edge> pathTo(int v) {
+    public ArrayList<Edge> pathTo(int v) {
         if (!hasPathTo(v)) {
         	System.out.print("nopath");
         	return null;
         }
-        Stack<Edge> path = new Stack<Edge>();
+        ArrayList<Edge> path = new ArrayList<Edge>();
         for (Edge e = edgeTo[v]; e != null; e = edgeTo[e.v.index]) {
-            path.push(e);
+            path.add(e);
         }     
 //        Edge e = path.peek();
 //        Edge e1 = new Edge(e.v, e.v);

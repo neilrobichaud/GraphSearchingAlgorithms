@@ -1,0 +1,10 @@
+compsci 2xb3
+Neil Robichaud
+001425566
+This is my own individual work
+
+Comments: 
+The Graph Data type is stored in "citylist" in FindPath.java.
+This is a list of Cities, where each city has an adjacency list of edges. Due to this unique implementation of a graph,
+DFS and BFS have a restore() method that resets all the edgeTo and distTo fields in the city objects of citylist.
+IndexMinPQ library was included from the Algorithms textbook.

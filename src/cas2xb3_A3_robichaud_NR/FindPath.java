@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
@@ -97,8 +98,9 @@ public class FindPath {
 	public static void OutputFileCreate() {
 		ArrayList<String[]> inputcities = readInTxt();
 		
-		breadthpath = new BreadthFirstSearch(cityfinder(inputcities.get(0)[0], inputcities.get(0)[1]));
-		Iterable<City> b = breadthpath.pathTo(cityfinder(inputcities.get(1)[0], inputcities.get(1)[1]));
+		BreadthFirstSearch breadthpath = new BreadthFirstSearch(citylist,cityfinder(inputcities.get(0)[0], inputcities.get(0)[1]));
+		ArrayList<City> b = breadthpath.pathTo(cityfinder(inputcities.get(1)[0], inputcities.get(1)[1]));
+		Collections.reverse(b);
 		String bfwrite = "";
 		for(City c: b){
 			bfwrite = bfwrite + c.name + ",";
@@ -106,8 +108,9 @@ public class FindPath {
 		breadthpath.restore();
 	
 		
-		DepthFirstSearch depthpath = new DepthFirstSearch(cityfinder(inputcities.get(0)[0], inputcities.get(0)[1]));
-		Iterable<City> d = depthpath.pathTo(cityfinder(inputcities.get(1)[0], inputcities.get(1)[1]));
+		DepthFirstSearch depthpath = new DepthFirstSearch(citylist,cityfinder(inputcities.get(0)[0], inputcities.get(0)[1]));
+		ArrayList<City> d = depthpath.pathTo(cityfinder(inputcities.get(1)[0], inputcities.get(1)[1]));
+		Collections.reverse(d);
 		String dfwrite = "";
 		for(City c: d){
 			dfwrite = dfwrite + c.name + ",";
@@ -118,7 +121,8 @@ public class FindPath {
 		City city1 = cityfinder(inputcities.get(0)[0], inputcities.get(0)[1]);
 		City city2 = cityfinder(inputcities.get(1)[0], inputcities.get(1)[1]);
 		ShortestPath spath = new ShortestPath(city1.index);
-		Iterable<Edge> x = spath.pathTo(city2.index);
+		ArrayList<Edge> x = spath.pathTo(city2.index);
+		Collections.reverse(x);
 		double tFood = 0;
 		double tGas = 0;
 		
@@ -140,10 +144,10 @@ public class FindPath {
 			bw.append('\n');
 			bw.append('\n');
 			bw.write(String.format("%20s %40s %20s %20s %20s \r\n", "City", "Meal Choice", "Cost of Meal", "Cost of Fuel", "Total Cost"));
-			bw.write(String.format("%20s %40s %20s %20s %20s \r\n", city2.name + " "+city2.state, "---", "$0.00", "$0.00", "$0.00"));
+			
 			for(Edge e: x){
 			String totalCost = formatter.format(e.weightWithFood());
-			String city = e.v.name;
+			String city = e.v.name +","+ e.v.state;
 			String mealPrice = (formatter.format(e.foodMoney));
 			String mealChoice = e.mealChoice;
 			String fuelCost = formatter.format(e.gasMoney);
@@ -152,6 +156,7 @@ public class FindPath {
 			
 			bw.write(String.format("%20s %40s %20s %20s %20s \r\n", city, mealChoice, mealPrice, fuelCost, totalCost));
 			}
+			bw.write(String.format("%20s %40s %20s %20s %20s \r\n", city2.name + ","+city2.state, "---", "---", "---", "---"));
 			bw.write(String.format("%20s %40s %20s %20s %20s \r\n", "Grand Totals:", "", formatter.format(tFood), formatter.format(tGas), formatter.format(tFood + tGas)));
 			
 

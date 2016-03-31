@@ -5,12 +5,12 @@ import java.util.Stack;
 
 public class BreadthFirstSearch {
 	private ArrayList<City> path;
-	private final City source;
+	private ArrayList<City> citylist;
 
-	public BreadthFirstSearch(City source) {
-		this.source = source;
-		for (int i = 0; i < FindPath.citylist.size(); i++) {
-			FindPath.citylist.get(i).distTo = 10000000; // couldn't figure out
+	public BreadthFirstSearch(ArrayList<City>citylist,City source) {
+		this.citylist = citylist;
+		for (int i = 0; i < citylist.size(); i++) {
+			citylist.get(i).distTo = 10000000; // couldn't figure out
 														// how to use infinity
 		}
 		bfs(source);
@@ -40,13 +40,13 @@ public class BreadthFirstSearch {
 
 	}
 	
-    public Iterable<City> pathTo(City v) {
+    public ArrayList<City> pathTo(City v) {
         if (!hasPathTo(v)) return null;
-        Stack<City> path = new Stack<City>();
+        ArrayList<City> path = new ArrayList<City>();
         City x;
         for (x = v; x.distTo != 0; x = x.edgeTo.v)
-            path.push(x);
-        path.push(x);
+            path.add(x);
+        path.add(x);
         return path;
     }
     
@@ -64,10 +64,10 @@ public class BreadthFirstSearch {
 	 * reverse the effects of the sort on each city object
 	 */
 	public void restore() {
-		for (int i = 0; i < FindPath.citylist.size(); i++) {
-			FindPath.citylist.get(i).visited = false;
-			FindPath.citylist.get(i).distTo = 100000000;
-			FindPath.citylist.get(i).edgeTo = null;
+		for (int i = 0; i < citylist.size(); i++) {
+			citylist.get(i).visited = false;
+			citylist.get(i).distTo = 100000000;
+			citylist.get(i).edgeTo = null;
 		}
 	}
 }
