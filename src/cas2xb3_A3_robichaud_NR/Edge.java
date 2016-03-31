@@ -23,7 +23,6 @@ public class Edge {
 	
 	public double weightWithFood(){
 		foodMoney=searchRestaurant(w);		
-		mealChoice = FindPath.menuDict.get(Double.toString(foodMoney));
 		totalCost = foodMoney + gasMoney;
 		return totalCost;
 	}
@@ -40,13 +39,14 @@ public class Edge {
 	public double searchRestaurant(City x){
 		
 		foodMoney=0;
+		
 		int closestInd = BinarySearch.indexOf(FindPath.rlist,x.lat);				//the index in rlist of the closest restaurant to City v
 		//System.out.print(closestInd + " ");
 		ArrayList<Restaurant> closeRestaurantList = BinarySearch.getlist(x.lat, x.lng, closestInd);
 		//System.out.print(closeRestaurantList.get(0).name);
-		Boolean wendy = true;
-		Boolean mcd = true;
-		Boolean bk = true;
+		Boolean wendy = false;
+		Boolean mcd = false;
+		Boolean bk = false;
 		//System.out.print(closeRestaurantList.size() + " ");
 		for (int i=0; i< closeRestaurantList.size();i++){
 			//System.out.print(closeRestaurantList.get(i).name);
@@ -61,7 +61,7 @@ public class Edge {
 			}
 		}
 		if(mcd && bk && wendy && FindPath.mcdMenu.size()>0 && FindPath.wendyMenu.size()>0 && FindPath.bkMenu.size()>0){
-			if(FindPath.mcdMenu.get(FindPath.mcdMenu.size()-1) < FindPath.bkMenu.get(FindPath.bkMenu.size()-1)){
+			if(FindPath.mcdMenu.get(FindPath.mcdMenu.size()-1) <= FindPath.bkMenu.get(FindPath.bkMenu.size()-1)){
 				if (FindPath.mcdMenu.get(FindPath.mcdMenu.size()-1) < FindPath.wendyMenu.get(FindPath.wendyMenu.size()-1)){
 					//mcd is smallest
 					cheapestR="mcd";
@@ -76,7 +76,7 @@ public class Edge {
 				}
 			}
 			else{
-				if(FindPath.bkMenu.get(FindPath.bkMenu.size()-1) < FindPath.wendyMenu.get(FindPath.wendyMenu.size()-1)){
+				if(FindPath.bkMenu.get(FindPath.bkMenu.size()-1) <= FindPath.wendyMenu.get(FindPath.wendyMenu.size()-1)){
 					//bk smallest
 					cheapestR="bk";
 					foodMoney=FindPath.bkMenu.get(FindPath.bkMenu.size()-1);
@@ -93,8 +93,19 @@ public class Edge {
 		}		
 		else{foodMoney=5;}
  		
-		System.out.print("FoodMoney:" + foodMoney + "  ");
-		mealChoice = FindPath.menuDict.get(foodMoney);
+		System.out.print(cheapestR +"FoodMoney:" + foodMoney + "  ");
+		if (cheapestR.equals("bk")){
+			mealChoice = FindPath.leastMenuItem(FindPath.bkDict);														//get cheapest item from teh cheapest restaurant
+			FindPath.removeMenuItem(FindPath.bkDict,mealChoice);
+		}
+		else if (cheapestR.equals("mcd")){
+			mealChoice = FindPath.leastMenuItem(FindPath.mcdDict);
+			FindPath.removeMenuItem(FindPath.mcdDict,mealChoice);
+		}
+		else if (cheapestR.equals("wendy")){
+			mealChoice = FindPath.leastMenuItem(FindPath.wendyDict);
+			FindPath.removeMenuItem(FindPath.wendyDict,mealChoice);
+		}		
 		return foodMoney;
 	}
 	public double getDistanceKm(double lat1,double lon1,double lat2,double lon2) { //haversine formula from google

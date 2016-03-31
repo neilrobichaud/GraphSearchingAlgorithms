@@ -5,6 +5,7 @@ DFS: DALLAS,HOUSTON,NEW ORLEANS,ATLANTA,CHARLOTTE,WASHINGTON,BALTIMORE,PHILADELP
            DALLAS TX                                      ---                $0.00                $0.00                $0.00 
              HOUSTON                         McChicken - Meal                $3.79                $7.96               $11.75 
          NEW ORLEANS               Double Cheeseburger - Meal                $4.38               $32.28               $36.66 
-             MEMPHIS              Double Cheeseburgers - Meal                $5.49                $0.17                $5.66 
-         SAINT LOUIS              Double Cheeseburgers - Meal                $5.49                $0.82                $6.31 
+             MEMPHIS       Quarter Pounder with Cheese - Meal                $5.49                $0.17                $5.66 
+         SAINT LOUIS                      Filet-O-Fish - Meal                $5.49                $0.82                $6.31 
              CHICAGO              Double Cheeseburgers - Meal                $5.49               $15.25               $20.74 
+       Grand Totals:                                                        $24.64               $56.49               $81.13 

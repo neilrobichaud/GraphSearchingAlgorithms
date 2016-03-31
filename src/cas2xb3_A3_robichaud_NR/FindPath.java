@@ -14,7 +14,9 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class FindPath {
-	static Map<String, String> menuDict;
+	static ArrayList<String[]> mcdDict ;
+	static ArrayList<String[]> bkDict;
+	static ArrayList<String[]> wendyDict;
 	public static ArrayList<String> MDmeals; // sorted arraylist of meals in
 												// decreasing order of price
 	public static ArrayList<String> BKmeals;
@@ -117,7 +119,9 @@ public class FindPath {
 		City city2 = cityfinder(inputcities.get(1)[0], inputcities.get(1)[1]);
 		ShortestPath spath = new ShortestPath(city1.index);
 		Iterable<Edge> x = spath.pathTo(city2.index);
-
+		double tFood = 0;
+		double tGas = 0;
+		
 		
 		BufferedWriter bw = null;
 		try {
@@ -143,9 +147,12 @@ public class FindPath {
 			String mealPrice = (formatter.format(e.foodMoney));
 			String mealChoice = e.mealChoice;
 			String fuelCost = formatter.format(e.gasMoney);
+			tFood = tFood + e.foodMoney;
+			tGas = tGas + e.gasMoney;
 			
 			bw.write(String.format("%20s %40s %20s %20s %20s \r\n", city, mealChoice, mealPrice, fuelCost, totalCost));
 			}
+			bw.write(String.format("%20s %40s %20s %20s %20s \r\n", "Grand Totals:", "", formatter.format(tFood), formatter.format(tGas), formatter.format(tFood + tGas)));
 			
 
 		} catch (IOException e1) {
@@ -217,9 +224,32 @@ public class FindPath {
 		return current;
 		
 	}
+	public static String leastMenuItem(ArrayList<String[]> q){
+		double min =10000;
+		String key = "nothing";
+		for(int i=0;i<q.size();i++){
+			if(Double.parseDouble(q.get(i)[1]) < min){
+				min=Double.parseDouble(q.get(i)[1]);
+				key = q.get(i)[0];
+			}
+		}
+		return key;
+	}
+	
+	public static void removeMenuItem(ArrayList<String[]> x, String y){
+		for(int i=0;i<x.size();i++){
+			if (x.get(i)[0].equals(y)){
+				x.remove(i);
+			}
+		}
+	}
+
 
 	public static void readMenuFromFile(String filename) {
-		menuDict = new HashMap<String, String>();
+		mcdDict = new ArrayList<String[]>();
+		bkDict = new ArrayList<String[]>();
+		wendyDict = new ArrayList<String[]>();
+		
 		Scanner input;
 		try {
 			input = new Scanner(new File(filename));
@@ -229,9 +259,10 @@ public class FindPath {
 				String[] l = k.split(",");
 				l[2] = l[2].replaceAll("[^\\d.]+", "");
 				double price = Double.parseDouble(l[2]);
-				menuDict.put(l[2], l[1]);									//a dictionary relating prices to meal names
+				
 				if (l[0].contains("McDonald")) {
-					
+					String[] x = {l[1], l[2]};
+					mcdDict.add(x);									//a dictionary relating prices to meal names
 					mcdMenu.add(price); // saves
 																				// menu
 																				// prices
@@ -240,9 +271,13 @@ public class FindPath {
 																				// respective
 																				// lists
 				} else if (l[0].contains("Burger King")) {
-					bkMenu.add(Double.parseDouble(l[2]));
-				} else if (l[0].contains("Wendy")) {					
-					wendyMenu.add(Double.parseDouble(l[2]));
+					String[] x = {l[1], l[2]};
+					bkDict.add(x);									//a dictionary relating prices to meal names
+					bkMenu.add(price);
+				} else if (l[0].contains("Wendy")) {			
+					String[] x = {l[1], l[2]};
+					wendyDict.add(x);										//a dictionary relating prices to meal names
+					wendyMenu.add(price);
 				}
 			}
 
